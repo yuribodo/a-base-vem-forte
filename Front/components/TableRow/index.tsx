@@ -22,33 +22,33 @@ const TableRow: React.FC<TableProductsProps> = ({
 	tempoRestante,
 }) => {
 	return (
-		<tr className="hover:bg-gray-50">
-			<td className="px-4 py-2 border-b border-gray-200 text-gray-700">
+		<tr className="hover:bg-gray-50 text-xs sm:text-sm">
+			<td className="px-2 sm:px-4 py-2 border-b border-gray-200 text-gray-700">
 				{productName}
 			</td>
-			<td className="px-4 py-2 border-b border-gray-200 text-gray-700">
+			<td className="hidden sm:table-cell px-2 sm:px-4 py-2 border-b border-gray-200 text-gray-700">
 				{productDescription}
 			</td>
-			<td className="px-4 py-2 border-b border-gray-200 text-gray-700">
+			<td className="px-2 sm:px-4 py-2 border-b border-gray-200 text-gray-700">
 				{productCategory}
 			</td>
-			<td className="px-4 py-2 border-b border-gray-200 text-gray-700">
+			<td className="px-2 sm:px-4 py-2 border-b border-gray-200 text-gray-700">
 				{productPrice}
 			</td>
-			<td className="px-4 py-2 border-b border-gray-200 text-gray-700">
+			<td className="px-2 sm:px-4 py-2 border-b border-gray-200 text-gray-700">
 				{productQuantity}
 			</td>
-			<td className="px-4 py-2 border-b border-gray-200 text-gray-700">
+			<td className="px-2 sm:px-4 py-2 border-b border-gray-200 text-gray-700">
 				{productCode}
 			</td>
-			<td className="px-4 py-2 border-b border-gray-200 text-gray-700">
+			<td className="hidden md:table-cell px-2 sm:px-4 py-2 border-b border-gray-200 text-gray-700">
 				{productDestiny}
 			</td>
-			<td className="px-4 py-2 border-b border-gray-200 text-gray-700">
+			<td className="hidden lg:table-cell px-2 sm:px-4 py-2 border-b border-gray-200 text-gray-700">
 				{productValidity}
 			</td>
 			{tempoRestante > 0 && (
-				<td className="px-4 py-2 border-b border-gray-200 text-gray-700">
+				<td className="px-2 sm:px-4 py-2 border-b border-gray-200 text-gray-700">
 					{tempoRestante} Dias
 				</td>
 			)}
