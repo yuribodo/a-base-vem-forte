@@ -5,5 +5,5 @@ from .models import Log
 class LogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Log
-        fields = ["id", "name", "description"]
-        read_only_fields = ["id"]
+        fields = ["id", "user", "product", "action", "timestamp"]
+        read_only_fields = ["id", "timestamp"]
