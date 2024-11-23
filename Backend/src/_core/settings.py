@@ -58,6 +58,7 @@ THIRD_PARTY_APPS = ["rest_framework"]
 
 LOCAL_APPS = [
     "products.apps.ProductsConfig",
+    "user.apps.UserConfig",
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
