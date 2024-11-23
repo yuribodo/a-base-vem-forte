@@ -1,11 +1,10 @@
 from rest_framework import serializers
 from .models import Products
-from datetime import datetime
 
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        models = Products
+        model = Products
         fields = [
             "id",
             "name",
@@ -21,9 +20,15 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id"]
 
-    def validate(self, data):
-        if data["expiration_date"] < data["date_of_manufacture"]:
-            raise serializers.ValidationError(
-                "The expiration date cannot be earlier than the manufacturing date."
-            )
+    def create(self, data):
+
+        expiration_date = data.get("expiration_date", None)
+        date_of_manufacture = data.get("date_of_manufacture", None)
+
+        if expiration_date and date_of_manufacture:
+            if expiration_date < date_of_manufacture:
+                raise serializers.ValidationError(
+                    "A data de validade não pode ser anterior à data de fabricação."
+                )
+
         return data
