@@ -14,19 +14,55 @@ const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
 
 const loginSchema = z.object({
 	name: z.string().min(1, "O campo é obrigatório"),
-	description: z.string().min(6, "A descrição precisa ter ao menos 6 caracteres"),
+	description: z
+		.string()
+		.min(6, "A descrição precisa ter ao menos 6 caracteres")
+		.optional()
+		.or(z.literal('')),
 	validateDate: z
 		.string()
-		.regex(dateRegex, "Formato de data inválido (use DD/MM/YYYY)"),
+		.regex(dateRegex, "Formato de data inválido (use DD/MM/YYYY)")
+		.refine(
+			(date) => {
+				const [day, month, year] = date.split("/").map(Number);
+				const dateObject = new Date(year, month - 1, day);
+				return dateObject > new Date();
+			},
+			{ message: "A data de validade deve ser no futuro" }
+		),
+	manufactoringDate: z
+		.string()
+		.regex(dateRegex, "Formato de data inválido (use DD/MM/YYYY)")
+		.optional()
+		.or(z.literal(''))
+		.refine(
+			(date) => {
+				if (!date) return true; // Aceitar valor vazio, já que é opcional
+				const [day, month, year] = date.split("/").map(Number);
+				const dateObject = new Date(year, month - 1, day);
+				const today = new Date();
+				today.setHours(0, 0, 0, 0); // Ajustar para meia-noite
+				return dateObject <= today; // Validação de passado ou presente
+			},
+			{ message: "A data de fabricação deve ser no passado ou no dia atual" }
+		),
 	price: z
-        .string()
-        .transform((val) => Number(val)).refine((val) => !isNaN(val), { message: "O preço deve ser um número", }) 
-        .refine((val) => val >= 1, { message: "O preço é obrigatório e deve ser pelo menos 1", }),
+		.string()
+		.transform((val) => Number(val))
+		.refine((val) => !isNaN(val), { message: "O preço deve ser um número" })
+		.refine((val) => val >= 1, {
+			message: "O preço é obrigatório e deve ser pelo menos 1",
+		}),
 	quantity: z
-        .string()
-        .transform((val) => Number(val)).refine((val) => !isNaN(val), { message: "O preço deve ser um número", })
-        .refine((val) => val >= 1, { message: "A quantidade é obrigatório e deve ser pelo menos 1", }),
-	productCode: z.string().min(6, "O código do produto precisa ter ao menos 6 caracteres"),
+		.string()
+		.transform((val) => Number(val))
+		.refine((val) => !isNaN(val), { message: "A quantidade deve ser um número" })
+		.refine((val) => val >= 1, {
+			message: "A quantidade é obrigatória e deve ser pelo menos 1",
+		}),
+	productCode: z
+		.string()
+		.min(6, "O código do produto precisa ter ao menos 6 caracteres"),
 });
 
 type loginTypes = z.infer<typeof loginSchema>;
@@ -42,17 +78,26 @@ export default function Page() {
 		mode: "onChange",
 		defaultValues: {
 			name: "",
-			description: "",
+			description: undefined,
+			manufactoringDate: undefined,
 			validateDate: "",
-			price: 0,
-			quantity: 0,
+			price: undefined,
+			quantity: undefined,
 			productCode: "",
 		},
 	});
 	let isLoading = false;
 
-	const handleSubmitLogin = (dados: loginTypes) => {
+	const handleProductSubmit = (dados: loginTypes) => {
+
         isLoading = true;
+
+		const sanitizedData = {
+			...dados,
+			description: dados.description || undefined, 
+			manufactoringDate: dados.manufactoringDate || undefined, 
+		};
+		console.log(sanitizedData);
 		console.log(dados);
 	};
 
@@ -61,7 +106,7 @@ export default function Page() {
 			<section className="w-full max-w-2xl h-full p-10 rounded-md shadow-xl">
 				<form
 					className="flex flex-col gap-6"
-					onSubmit={handleSubmit(handleSubmitLogin)}
+					onSubmit={handleSubmit(handleProductSubmit)}
 				>
 					<div className="w-full grid grid-cols-1 xl:grid-cols-2 gap-6">
 						<div>
@@ -74,7 +119,7 @@ export default function Page() {
 							{errors.name && <ErroMessage>{errors.name.message}</ErroMessage>}
 						</div>
 						<div>
-							<Label htmlFor="description">Descrição</Label>
+							<Label htmlFor="description">Descrição (opcional)</Label>
 							<Input
 								type="text"
 								placeholder="Escreva a descrição do produto"
@@ -95,6 +140,25 @@ export default function Page() {
 								<option value="congelados">Congelados</option>
 								<option value="enlatados">Enlatados</option>
 							</select>
+						</div>
+						<div className="flex flex-col">
+							<Label htmlFor="perecibleProduct">Produto Perecível</Label>
+							<select name="perecibleProduct" className="px-4 py-[7px] border rounded-md">
+								<option value="nao">Não</option>
+								<option value="sim">Sim</option>
+							</select>
+						</div>
+						
+						<div>
+							<Label htmlFor="validateDate">Data de Fabricação (opcional)</Label>
+							<Input
+								type="text"
+								placeholder="DD/MM/YYYY"
+								{...register("manufactoringDate")}
+							/>
+							{errors.manufactoringDate && (
+								<ErroMessage>{errors.manufactoringDate.message}</ErroMessage>
+							)}
 						</div>
 						<div>
 							<Label htmlFor="validateDate">Data de Validade</Label>
