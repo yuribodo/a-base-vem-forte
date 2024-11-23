@@ -72,9 +72,9 @@ const DashboardPage = () => {
   
 
   return (
-    <main className="w-full max-w-5xl p-8">
+    <main className="w-full p-8">
         <h1 className="text-2xl font-bold">Dashboard</h1>
-        <div className="flex items-center w-full ">
+        <div className="flex flex-col  items-center w-full ">
             <div className="bg-white shadow-xl w-full rounded-lg p-6">
                 <h2 className="text-lg font-bold mb-4">Últimos Produtos Cadastrados</h2>
                     {mockedProducts.length === 0 ? (
@@ -88,7 +88,7 @@ const DashboardPage = () => {
                     )}
             </div>
 
-            <div className=" bg-white shadow-md rounded-lg p-6 flex flex-col w-1/5">
+            <div className=" bg-white shadow-md rounded-lg p-6 flex flex-col w-1/5 md:w-1/5 mt-4 md:mt-0">
                 <h2 className="text-lg font-bold mb-4">Controle de Validade</h2>
                 <div className="w-2/3">
                     <Pie data={chartData} />
