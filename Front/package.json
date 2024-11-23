@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
     "chart.js": "^4.4.6",
     "next": "14.2.18",
     "react": "^18",
