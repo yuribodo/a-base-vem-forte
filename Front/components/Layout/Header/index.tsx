@@ -103,21 +103,21 @@ const Header = () => {
             </button>
           </Link>
           <Link
-            href="/main/dashboard"
+            href="/dashboard"
             className="flex items-center px-4 py-2 rounded-md hover:bg-white/10 transition-all group space-x-2"
           >
           <FaHome  />
           <span className="text-[1.05rem]font-medium">Dashboard</span>
         </Link>
         <Link
-          href="/main/produtos"
+          href="/produtos"
           className="flex items-center px-4 py-2 rounded-md hover:bg-white/10 transition-all group space-x-2"
         >
           <FaBox  />
           <span className="text-[1.05rem] font-medium">Produtos</span>
         </Link>
         <Link
-          href="/main/relatorio"
+          href="/relatorio"
           className="flex items-center px-4 py-2 rounded-md hover:bg-white/10 transition-all group space-x-2"
         >
           <FaChartBar  />

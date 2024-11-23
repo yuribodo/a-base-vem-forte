@@ -3,7 +3,7 @@ import DashboardPage from '@/UIPages/Dashboard'
 
 const page = () => {
   return (
-    <div>
+    <div className=''>
       <DashboardPage />
     </div>
   )

@@ -72,10 +72,10 @@ const DashboardPage = () => {
   
 
   return (
-    <main className="w-[calc(100vw-16rem)] p-8 space-y-8 ">
-        <h1 className="text-2xl font-bold">DashBoard</h1>
-        <div className="flex  items-center w-full max-w-4xl mx-auto">
-            <div className="bg-white shadow-xl rounded-lg p-6 w-full">
+    <main className="w-full max-w-5xl p-8">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <div className="flex items-center w-full ">
+            <div className="bg-white shadow-xl w-full rounded-lg p-6">
                 <h2 className="text-lg font-bold mb-4">Últimos Produtos Cadastrados</h2>
                     {mockedProducts.length === 0 ? (
                         <div className="text-center py-8 text-gray-500">
