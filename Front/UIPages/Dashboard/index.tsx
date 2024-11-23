@@ -86,7 +86,7 @@ const DashboardPage = () => {
         <div className="flex  items-center w-full max-w-4xl mx-auto">
             <div className="bg-white shadow-xl rounded-lg p-6 w-full">
                 <h2 className="text-lg font-bold mb-4">Últimos Produtos Cadastrados</h2>
-                <div className="space-y-2">
+                
                     {mockedProducts.length === 0 ? (
                         <div className="text-center py-8 text-gray-500">
                         Nenhum produto encontrado
@@ -138,7 +138,6 @@ const DashboardPage = () => {
                         </div>
                         ))
                     )}
-                    </div>
             </div>
 
             <div className=" bg-white shadow-md rounded-lg p-6 flex flex-col w-1/5">
