@@ -3,7 +3,7 @@ import DashboardPage from '@/UIPages/Dashboard'
 
 const page = () => {
   return (
-    <div className=''>
+    <div className='max-w-8xl'>
       <DashboardPage />
     </div>
   )
