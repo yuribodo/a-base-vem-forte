@@ -11,7 +11,6 @@ class Products(models.Model):
     )
     price = models.DecimalField(max_digits=10, decimal_places=2)
     expiration_date = models.DateField()
-    days_left = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
     code_product = models.CharField(max_length=50, unique=True)
     destination = models.ForeignKey(
