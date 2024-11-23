@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import SearchBar from '@/components/SearchBar/index'
-import { Clock, Package, DollarSign, Tag, AlertCircle, Search } from 'lucide-react';
+import { Clock, Package, DollarSign, Tag, AlertCircle, Search, Plus } from 'lucide-react';
+import Link from 'next/link';
 
 interface Product {
   id: number;
@@ -72,7 +73,16 @@ const Page = () => {
   return (
     <main className="w-full p-8">
       <div className="flex flex-col gap-6">
-        <h1 className="text-2xl font-bold">Produtos</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Produtos</h1>
+          <Link 
+            href="/main/produtos/adicionar-produto" 
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#5ccb5f] text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium text-sm"
+          >
+            <Plus className="w-4 h-4" />
+            Adicionar Produto
+          </Link>
+        </div>
         
         <SearchBar
           value={searchTerm}
