@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react';
-import Logo from '../../../public/images/eco-food-logo.png'
+import Logo from '../../../public/images/eco-food-logo.webp'
 import Button from '@/components/Button';
 
 export default function index() {
