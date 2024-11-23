@@ -102,8 +102,9 @@ export default function Page() {
 	};
 
 	return (
-		<main className="w-[calc(100vw-16rem)] h-full flex justify-center items-center pt-10 px-20">
+		<main className="w-[calc(100vw-16rem)] h-full flex flex-col justify-center items-center py-10 px-20">
 			<section className="w-full max-w-2xl h-full p-10 rounded-md shadow-xl">
+				<h1 className='text-2xl text-center mb-10'>Adicionar Produto</h1>
 				<form
 					className="flex flex-col gap-6"
 					onSubmit={handleSubmit(handleProductSubmit)}
