@@ -3,11 +3,11 @@ import Button from '@/components/Button';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
 import React from 'react';
-import Spinner from "../../../components/SpinnerLoading";
+import Spinner from "../../../../../components/SpinnerLoading";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ErroMessage from "../../../components/ErrorMessage";
+import ErroMessage from "../../../../../components/ErrorMessage";
 
 // Validação de data com regex para formato DD/MM/YYYY
 const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;

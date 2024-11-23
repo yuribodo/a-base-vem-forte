@@ -1,6 +1,6 @@
 import SideBar from "@/components/Layout/SideBar";
-import "../styles/globals.css";
-import Header from "../components/Layout/Header";
+import '@/styles/globals.css'
+import Header from "@/components/Layout/Header";
 
 
 export default function RootLayout({
@@ -11,7 +11,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				{children}
+                <Header/>
+                <div className="flex">
+					<SideBar/>
+                    {children}
+                </div>
 			</body>
 		</html>
 	);
