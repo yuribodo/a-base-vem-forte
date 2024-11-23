@@ -2,9 +2,9 @@
 
 import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Clock, Package, Tag, AlertCircle } from 'lucide-react';
 import { Pie } from "react-chartjs-2";
 import ProdutosPorCategoria from "@/components/ProductsCategory";
+import ProductRow from "@/components/ProductRow";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -56,15 +56,6 @@ interface Product {
     },
   ];
 
-  const getDaysLeftColor = (days: number): string => {
-    if (days <= 7) return "bg-red-100 text-red-800";
-    if (days <= 30) return "bg-yellow-100 text-yellow-800";
-    return "bg-green-100 text-green-800";
-  };
-  
-  const formatDate = (dateString: string): string => {
-    return new Date(dateString).toLocaleDateString('pt-BR');
-  };
 
 const DashboardPage = () => {
   const chartData = {
@@ -86,56 +77,13 @@ const DashboardPage = () => {
         <div className="flex  items-center w-full max-w-4xl mx-auto">
             <div className="bg-white shadow-xl rounded-lg p-6 w-full">
                 <h2 className="text-lg font-bold mb-4">Últimos Produtos Cadastrados</h2>
-                
                     {mockedProducts.length === 0 ? (
                         <div className="text-center py-8 text-gray-500">
                         Nenhum produto encontrado
                         </div>
                     ) : (
                         mockedProducts.map((product) => (
-                        <div 
-                            key={product.id}
-                            className="flex items-center gap-4 bg-white p-4 rounded-lg shadow-xl hover:shadow-md transition-shadow duration-300 cursor-pointer"
-                        >
-                            <img 
-                            src="/api/placeholder/80/80"
-                            alt={product.name}
-                            className="w-12 h-12 rounded-lg object-cover"
-                            />
-                            
-                            <div className="flex-1">
-                            <h2 className="font-medium text-gray-900">{product.name}</h2>
-                                <div className="flex items-center gap-2 mt-1">
-                                    <Tag className="w-3 h-3 text-gray-400" />
-                                    <span className="text-xs text-gray-500">{product.category}</span>
-                                    {product.is_perishable && (
-                                    <div className="flex items-center gap-1 text-amber-600">
-                                        <AlertCircle className="w-3 h-3" />
-                                        <span className="text-xs">Perecível</span>
-                                    </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col items-start gap-1">
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
-                                <Clock className="w-4 h-4" />
-                                <span>{formatDate(product.expirationDate)}</span>
-                            </div>
-                                <span className={`px-2 py-1 rounded-full text-xs ${getDaysLeftColor(product.daysLeft)}`}>
-                                    {product.daysLeft} dias restantes
-                                </span>
-                            </div>
-
-                            <div className="flex items-center gap-2 text-sm text-gray-600 w-24">
-                                <Package className="w-4 h-4" />
-                                <span>{product.quantity} un</span>
-                            </div>
-
-                            <div className="flex items-center gap-2 text-sm font-medium text-gray-900 w-24">
-                                <span>R$ {product.price}</span>
-                            </div>
-                        </div>
+                          <ProductRow key={product.id} product={product} />
                         ))
                     )}
             </div>
