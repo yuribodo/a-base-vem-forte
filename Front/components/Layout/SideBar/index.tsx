@@ -4,10 +4,14 @@ import React from "react";
 import Link from "next/link";
 import { FaHome, FaBox, FaChartBar } from "react-icons/fa"; 
 
+type SideBarProps = {
+  className?: string;  
+};
 
-const index = () => {
+
+const index: React.FC<SideBarProps> = ({ className }) => {
   return (
-    <aside className="h-screen w-64 bg-[#3a8b40] text-white flex flex-col shadow-lg">
+    <aside className={`h-screen w-64 bg-[#3a8b40] text-white flex flex-col shadow-lg ${className}`}>
       <nav className="flex-1 p-4 space-y-4">
         <Link
           href="/main/dashboard"
