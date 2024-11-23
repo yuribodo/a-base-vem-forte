@@ -8,14 +8,17 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErroMessage from "../ErrorMessage";
 import Label from "../Label";
-import React from "react";
 
 const loginSchema = z.object({
 	email: z
 		.string()
-		.min(1, "O campo email é obrigatório")
-		.email("O email não é valido, insira um email valido"),
-	password: z.string().min(6, "A sua senha deve ter no minimo 6 caracteres"),
+		.trim()
+		.min(1, "O campo email é obrigatório")
+		.email("O email não é válido, insira um email válido"),
+	password: z
+		.string()
+		.trim()
+		.min(6, "A sua senha deve ter no mínimo 6 caracteres"),
 });
 
 type loginTypes = z.infer<typeof loginSchema>;
@@ -25,18 +28,16 @@ const FormLogin = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-		setError,
 	} = useForm<loginTypes>({
 		resolver: zodResolver(loginSchema),
 		mode: "onChange",
 		defaultValues: { email: "", password: "" },
 	});
-	const isLoading = true;
 
-	const handleSubmitLogin = (dados: loginTypes) => {
-		console.log(dados);
+	const handleSubmitLogin = async (dados: loginTypes) => {
+		console.log("Dados enviados:", dados);
 	};
-
+	const isLoading = false;
 	return (
 		<form
 			className="flex flex-col w-full gap-6"
@@ -45,12 +46,12 @@ const FormLogin = () => {
 			<div className="flex flex-col gap-1">
 				<Label htmlFor="email">Email</Label>
 				<Input
+					{...register("email")}
 					placeholder="Email"
 					type="email"
 					className={`h-9 bg-transparent text-base border-[1px] rounded-md w-full ease-in-out duration-200 ${
-						errors.password && "border-red-500"
+						errors.email && "border-red-500"
 					}`}
-					{...register("email")}
 				/>
 				{errors.email && <ErroMessage>{errors.email.message}</ErroMessage>}
 			</div>
