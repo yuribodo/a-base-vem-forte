@@ -12,7 +12,6 @@ interface Product {
   daysLeft: number;
   quantity: number;
   price: string;
-  onClick: () => void;
 }
 
 interface ProductRowProps {
