@@ -7,7 +7,7 @@ import Image from "next/image";
 import icon from "@/public/images/eco-food-logo.png"
 
 
-const Sidebar = () => {
+const index = () => {
   return (
     <aside className="h-screen w-64 bg-[#3a8b40] text-white flex flex-col shadow-lg">
       
@@ -46,4 +46,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default index;
