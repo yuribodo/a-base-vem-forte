@@ -3,22 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { FaHome, FaBox, FaChartBar } from "react-icons/fa"; 
-import Image from "next/image";
-import icon from "@/public/images/eco-food-logo.png"
 
 
 const index = () => {
   return (
     <aside className="h-screen w-64 bg-[#3a8b40] text-white flex flex-col shadow-lg">
-      
-      <div className="p-4 text-2xl font-bold border-b border-white/10 flex items-center space-x-2">
-        <div className="w-14 h-10  rounded-full flex items-center justify-center text-[#3a8b40] font-bold">
-          <Image src={icon} alt="icon" width={140} height={244}/>
-        </div>
-        <span>Eco Food</span>
-      </div>
-
-      
       <nav className="flex-1 p-4 space-y-4">
         <Link
           href="/dashboard"
