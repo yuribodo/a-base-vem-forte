@@ -25,21 +25,21 @@ const index = () => {
           className="flex items-center px-4 py-2 rounded-md hover:bg-white/10 transition-all group space-x-2"
         >
           <FaHome  />
-          <span className="text-sm font-medium">Dashboard</span>
+          <span className="text-[1.05rem]font-medium">Dashboard</span>
         </Link>
         <Link
           href="/produtos"
           className="flex items-center px-4 py-2 rounded-md hover:bg-white/10 transition-all group space-x-2"
         >
           <FaBox  />
-          <span className="text-sm font-medium">Produtos</span>
+          <span className="text-[1.05rem] font-medium">Produtos</span>
         </Link>
         <Link
           href="/relatorio"
           className="flex items-center px-4 py-2 rounded-md hover:bg-white/10 transition-all group space-x-2"
         >
           <FaChartBar  />
-          <span className="text-sm font-medium">Relatório</span>
+          <span className="text-[1.05rem]font-medium">Relatório</span>
         </Link>
       </nav>
     </aside>
