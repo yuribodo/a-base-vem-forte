@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import SearchBar from '@/components/SearchBar/index'
-import { Clock, Package, DollarSign, Tag, AlertCircle, Search, Plus } from 'lucide-react';
+import { Clock, Package, Tag, AlertCircle, Plus } from 'lucide-react';
 import Link from 'next/link';
 
 interface Product {
@@ -99,7 +99,7 @@ const Page = () => {
             filteredProducts.map((product) => (
               <div 
                 key={product.id}
-                className="flex items-center gap-4 bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
+                className="flex items-center gap-4 bg-white p-4 rounded-lg shadow-xl border hover:shadow-md transition-shadow duration-300 cursor-pointer"
               >
                 <img 
                   src="/api/placeholder/80/80"
