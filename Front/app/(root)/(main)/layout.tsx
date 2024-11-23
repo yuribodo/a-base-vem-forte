@@ -2,7 +2,6 @@ import SideBar from "@/components/Layout/SideBar";
 import '@/styles/globals.css'
 import Header from "@/components/Layout/Header";
 
-
 export default function RootLayout({
 	children,
 }: Readonly<{
@@ -10,11 +9,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="pt-br">
-			<body>
+			<body className="h-screen flex flex-col">
                 <Header/>
-                <div className="flex">
-					<SideBar/>
-                    {children}
+                <div className="flex flex-grow w-full">
+					<SideBar className="hidden lg:block"/>
+                    <main className="flex-grow">{children}</main>
                 </div>
 			</body>
 		</html>
