@@ -22,10 +22,10 @@ const useAuthContext = () => {
 	type registerTypes = {
 		firstName: string;
 		lastName: string;
-		documentType: string;
+		document_type: string;
 		email: string;
-		cpf: string;
-		enterpriseSegment: string;
+		document: string;
+		enterprise_segment: string;
 		password: string;
 		phoneNumber: string;
 	};
@@ -62,40 +62,44 @@ const useAuthContext = () => {
 		setIsLoading(true);
 		try {
 			const {
-				cpf,
-				documentType,
+				document,
+				document_type,
 				email,
-				enterpriseSegment,
+				enterprise_segment,
 				firstName,
 				lastName,
 				password,
 				phoneNumber,
 			} = registerUser;
 
+
 			const newPayload = {
-				cpf,
-				documentType,
+				document,
+				document_type,
 				email,
-				enterpriseSegment,
+				enterprise_segment,
 				firstName,
 				lastName,
 				password,
 				phoneNumber,
 			}
+			console.log(newPayload)
 
 			const responseLogin = await apiClient.post(
 				"register/",
 				newPayload
 			);
+			console.log(responseLogin)
 
-			if (responseLogin.status !== 200) {
+			if (responseLogin.status !== 201) {
 				throw new Error("Registro inválido");
 			}
 
 			setSucessMessage("Usuário cadastrado com sucesso!");
 		} catch (error) {
 			console.log(error);
-			throw new Error("Login inválido");
+
+			throw new Error("Server Error");
 		} finally {
 			setIsLoading(false);
 		}
