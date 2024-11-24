@@ -33,7 +33,7 @@ const useAuthContext = () => {
 	const onHandleLogin = async (authLogin: loginTypes) => {
 		try {
 			setIsLoading(true);
-			const responseLogin = await apiClient.post("/auth/login", authLogin);
+			const responseLogin = await apiClient.post("login/", authLogin);
 
 			if (!responseLogin) {
 				throw new Error("Login inválido");
@@ -84,7 +84,7 @@ const useAuthContext = () => {
 			}
 
 			const responseLogin = await apiClient.post(
-				"/auth/register",
+				"register/",
 				newPayload
 			);
 

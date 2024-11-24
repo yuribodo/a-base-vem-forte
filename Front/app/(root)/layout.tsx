@@ -20,10 +20,12 @@ export default function RootLayout({
 	if (currentPath === "/") {
 		return (
 			<body className={`h-screen flex flex-col ${montserrat.className}`}>
-				<Header />
-				<div className="flex flex-grow w-full">
-					<main className="flex-grow">{children}</main>
-				</div>
+				<AuthProvider>
+					<Header />
+					<div className="flex flex-grow w-full">
+						<main className="flex-grow">{children}</main>
+					</div>
+				</AuthProvider>
 			</body>
 		);
 	}
