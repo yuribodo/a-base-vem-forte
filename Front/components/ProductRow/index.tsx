@@ -29,12 +29,13 @@ const formatDate = (dateString: string): string => {
   return new Date(dateString).toLocaleDateString('pt-BR');
 };
 
-const { setIsModalOpen } = useIsOpenModalStore();
-const handleCloseModal = () => {
-      setIsModalOpen(true);
-}
 
 const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
+  const { setIsModalOpen } = useIsOpenModalStore();
+
+  const handleCloseModal = () => {
+    setIsModalOpen(true);
+}
   return (
 
     <div 
