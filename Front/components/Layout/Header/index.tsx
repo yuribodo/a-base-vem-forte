@@ -6,10 +6,12 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import Logo from '../../../public/images/eco-food-logo.webp';
 import { FaHome, FaBox, FaChartBar } from "react-icons/fa";
+import useAuthContext from '@/hooks/useAuthContext';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const {isLogged , onHandleLogout} = useAuthContext()
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -38,7 +40,7 @@ const Header = () => {
           />
         </Link>
 
-
+      {!isLogged && (
         <nav className="hidden md:flex items-center gap-5">
           <Link href="/auth/login">
             <button className="px-6 py-2 text-[1.05rem] rounded-full transition-all duration-300 hover:bg-buttonBgColor/90 hover:shadow-lg">
@@ -51,6 +53,18 @@ const Header = () => {
             </button>
           </Link>
         </nav>
+      )}
+
+      {isLogged && (
+        <nav className="hidden md:flex items-center gap-5">
+        <Link href="/">
+          <button onClick={() => onHandleLogout()} className="px-6 py-2 text-[1.05rem] rounded-full transition-all duration-300 hover:bg-buttonBgColor/90 hover:shadow-lg">
+            Logout
+          </button>
+        </Link>
+      </nav>
+      )}
+        
 
         {isMobile && (
           <button
