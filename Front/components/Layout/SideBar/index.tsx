@@ -13,7 +13,7 @@ const SideBar: React.FC<SideBarProps> = ({ className }) => {
   const pathname = usePathname(); 
 
   return (
-    <aside className={`h-full w-64 bg-[#3a8b40] text-white flex flex-col shadow-lg ${className}`}>
+    <aside className={`min-h-screen w-64 bg-[#3a8b40] text-white flex flex-col shadow-lg ${className}`}>
       <nav className="flex-1 p-4 space-y-4">
         <Link
           href="/dashboard"
