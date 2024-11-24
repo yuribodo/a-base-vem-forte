@@ -60,9 +60,12 @@ LOCAL_APPS = [
     "products.apps.ProductsConfig",
     "user.apps.UserConfig",
     "log.apps.LogConfig",
+    "login.apps.LoginConfig",
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
+
+AUTH_USER_MODEL = "user.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

@@ -129,8 +129,8 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 	const valueDonatedProducts = calculateDonatedProductsValue(filteredProducts);
 
 	return (
-		<div className="max-h-[600px] overflow-y-auto bg-white shadow-lg border-t-[1px] rounded-lg">
-			<div className="flex gap-4 text-sm font-medium text-gray-700 p-4">
+		<div className="max-h-[600px] overflow-y-auto overflow-x-auto bg-white shadow-lg border-t-[1px] rounded-lg">
+			<div className="flex flex-wrap gap-4 text-sm font-medium text-gray-700 p-4">
 				<p>Total de produtos: {filteredProducts.length}</p>
 				<p>Preço total perdido: {formattedPrice(totalValue)}</p>
 				{tab === "aboutToExpire" && (
@@ -147,18 +147,30 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 			</div>
 			<table className="table-auto w-full text-left border-collapse">
 				<thead>
-					<tr className="text-gray-600 text-sm font-semibold">
-						<th className="px-4 py-2 border-b border-gray-200">Nome</th>
-						<th className="px-4 py-2 border-b border-gray-200">Descrição</th>
-						<th className="px-4 py-2 border-b border-gray-200">Categoria</th>
-						<th className="px-4 py-2 border-b border-gray-200">Preço</th>
-						<th className="px-4 py-2 border-b border-gray-200">Quantidade</th>
-						<th className="px-4 py-2 border-b border-gray-200">Code Product</th>
-						<th className="px-4 py-2 border-b border-gray-200">Destino</th>
-						<th className="px-4 py-2 border-b border-gray-200">Validade</th>
+					<tr className="text-gray-600 text-xs sm:text-sm font-semibold">
+						<th className="px-2 sm:px-4 py-2 border-b border-gray-200">Nome</th>
+						<th className="hidden sm:table-cell px-2 sm:px-4 py-2 border-b border-gray-200">
+							Descrição
+						</th>
+						<th className="px-2 sm:px-4 py-2 border-b border-gray-200">
+							Categoria
+						</th>
+						<th className="px-2 sm:px-4 py-2 border-b border-gray-200">
+							Preço
+						</th>
+						<th className="px-2 sm:px-4 py-2 border-b border-gray-200">
+							Quantidade
+						</th>
+						<th className="px-2 sm:px-4 py-2 border-b border-gray-200">Code</th>
+						<th className="hidden md:table-cell px-2 sm:px-4 py-2 border-b border-gray-200">
+							Destino
+						</th>
+						<th className="hidden lg:table-cell px-2 sm:px-4 py-2 border-b border-gray-200">
+							Validade
+						</th>
 						{tab === "aboutToExpire" && (
-							<th className="px-4 py-2 border-b border-gray-200">
-								Dias para vencer
+							<th className="px-2 sm:px-4 py-2 border-b border-gray-200">
+								Dias
 							</th>
 						)}
 					</tr>
