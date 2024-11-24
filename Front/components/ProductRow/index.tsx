@@ -1,5 +1,7 @@
 import React from 'react';
+import useIsOpenModalStore from '@/store/OpenProductModal';
 import { Clock, Package, Tag, AlertCircle, ChevronRight } from 'lucide-react';
+
 
 interface Product {
   id: number;
@@ -27,29 +29,34 @@ const formatDate = (dateString: string): string => {
   return new Date(dateString).toLocaleDateString('pt-BR');
 };
 
+const { setIsModalOpen } = useIsOpenModalStore();
+const handleCloseModal = () => {
+      setIsModalOpen(true);
+}
+
 const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
   return (
-    <div className="group bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer mt-4">
-    
-      <div className="hidden md:flex items-center gap-4">
-        <img 
-          src="/api/placeholder/80/80"
-          alt={product.name}
-          className="w-12 h-12 rounded-lg object-cover"
-        />
-        
-        <div className="flex-1">
-          <h2 className="font-medium text-gray-900">{product.name}</h2>
-          <div className="flex items-center gap-2 mt-1">
-            <Tag className="w-3 h-3 text-gray-400" />
-            <span className="text-xs text-gray-500">{product.category}</span>
-            {product.is_perishable && (
-              <div className="flex items-center gap-1 text-amber-600">
-                <AlertCircle className="w-3 h-3" />
-                <span className="text-xs">Perecível</span>
-              </div>
-            )}
-          </div>
+
+    <div 
+      onClick={() => handleCloseModal()}
+      className="flex items-center gap-4 mt-4 bg-white p-4 rounded-lg shadow-xl border hover:shadow-md transition-shadow duration-300 cursor-pointer">
+      <img 
+        src="/api/placeholder/80/80"
+        alt={product.name}
+        className="w-12 h-12 rounded-lg object-cover"
+      />
+      
+      <div className="flex-1">
+        <h2 className="font-medium text-gray-900">{product.name}</h2>
+        <div className="flex items-center gap-2 mt-1">
+          <Tag className="w-3 h-3 text-gray-400" />
+          <span className="text-xs text-gray-500">{product.category}</span>
+          {product.is_perishable && (
+            <div className="flex items-center gap-1 text-amber-600">
+              <AlertCircle className="w-3 h-3" />
+              <span className="text-xs">Perecível</span>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col items-start gap-1">
