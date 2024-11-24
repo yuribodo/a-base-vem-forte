@@ -20,7 +20,7 @@ const ReportPage = () => {
 		<div className="flex flex-col gap-4 px-4 max-w-screen sm:px-6 md:px-8">
 			<div className="flex flex-col w-full">
 				<div className="flex flex-col gap-2">
-					<h2 className="md:text-2xl text-xl font-bold">Relatório</h2>
+					<h2 className="text-2xl font-bold">Relatório</h2>
 					<p className="text-sm sm:text-xs text-gray-700">
 						Ficou fácil para você ver o relatório dos produtos, clique em um dos
 						botões abaixo.
