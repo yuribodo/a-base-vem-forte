@@ -102,8 +102,8 @@ export default function Page() {
 	};
 
 	return (
-		<main className="w-full h-full flex flex-col justify-center items-start p-8 gap-6">
-			<div className="w-full h-full flex justify-start">
+		<main className="w-full h-full flex flex-col items-start p-8 gap-6">
+			<div className="w-full flex justify-start">
 				<h1 className="text-2xl font-bold">Adicionar Produto</h1>
 			</div>
 			<form
@@ -204,7 +204,7 @@ export default function Page() {
 					</div>
 				</div>
 
-				<div className="w-full flex justify-center items-center">
+				<div className="w-full flex justify-start items-center">
 					<Button
 						type="submit"
 						className="w-full sm:w-1/2 lg:w-1/3 max-w-[400px] bg-[#3a8b40] text-white h-[42px] hover:bg-[#3a8b40] transition-colors duration-100 ease-linear font-semibold text-[20px]"

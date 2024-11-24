@@ -72,38 +72,36 @@ const DashboardPage = () => {
   
 
   return (
-    <main className="w-full p-8">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <div className="flex flex-col  items-center w-full ">
-            <div className="bg-white shadow-xl w-full rounded-lg p-6">
-                <h2 className="text-lg font-bold mb-4">Últimos Produtos Cadastrados</h2>
-                    {mockedProducts.length === 0 ? (
-                        <div className="text-center py-8 text-gray-500">
-                        Nenhum produto encontrado
-                        </div>
-                    ) : (
-                        mockedProducts.map((product) => (
-                          <ProductRow key={product.id} product={product} />
-                        ))
-                    )}
-            </div>
-
-            <div className=" bg-white shadow-md rounded-lg p-6 flex flex-col w-1/5 md:w-1/5 mt-4 md:mt-0">
-                <h2 className="text-lg font-bold mb-4">Controle de Validade</h2>
-                <div className="w-2/3">
-                    <Pie data={chartData} />
+    <main className="w-full p-8 max-w-full overflow-x-hidden">
+    <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+    <div className="flex flex-col md:flex-row items-center w-full gap-4">
+        <div className="bg-white shadow-xl w-full md:w-3/4 lg:w-2/3 rounded-lg p-4">
+            <h2 className="text-lg font-bold mb-2">Últimos Produtos Cadastrados</h2>
+            {mockedProducts.length === 0 ? (
+                <div className="text-center py-4 text-gray-500">
+                    Nenhum produto encontrado
                 </div>
-            </div>
+            ) : (
+                mockedProducts.map((product) => (
+                    <ProductRow key={product.id} product={product} />
+                ))
+            )}
         </div>
-        
 
-        <div className="p-6 bg-white shadow-lg rounded-lg">
-            <h2 className="text-lg font-bold mb-4">Produtos por Categoria</h2>
-            <ProdutosPorCategoria/>
+        <div className="bg-white shadow-md rounded-lg p-4 flex flex-col w-full md:w-1/4 lg:w-1/5">
+          <h2 className="text-lg font-bold mb-2">Controle de Validade</h2>
+          <div className="w-32 md:w-48 lg:w-40 mx-auto">
+            <Pie data={chartData} />
+          </div>
         </div>
-  
+    </div>
 
-    </main>
+    <div className="p-4 bg-white shadow-lg rounded-lg mt-4 w-full md:w-3/4 lg:w-2/3 mx-auto">
+        <h2 className="text-lg font-bold mb-2">Produtos por Categoria</h2>
+        <ProdutosPorCategoria />
+    </div>
+</main>
+
   );
 };
 

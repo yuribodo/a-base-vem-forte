@@ -1,39 +1,46 @@
-import React from 'react';
-import { Clock, Package, Tag, AlertCircle, ChevronRight } from 'lucide-react';
+import React from "react";
+import { Clock, Package, Tag, AlertCircle, ChevronRight } from "lucide-react";
+import useModalStore from "@/store/OpenProductModal";
 
 interface Product {
-  id: number;
-  image: string;
-  name: string;
-  category: string;
-  is_perishable: boolean;
-  expirationDate: string;
-  daysLeft: number;
-  quantity: number;
-  price: string;
+	id: number;
+	image: string;
+	name: string;
+	category: string;
+	is_perishable: boolean;
+	expirationDate: string;
+	daysLeft: number;
+	quantity: number;
+	price: string;
 }
 
 interface ProductRowProps {
-  product: Product;
+	product: Product;
 }
 
 const getDaysLeftColor = (days: number): string => {
-  if (days <= 7) return "bg-red-100 text-red-800";
-  if (days <= 30) return "bg-yellow-100 text-yellow-800";
-  return "bg-green-100 text-green-800";
+	if (days <= 7) return "bg-red-100 text-red-800";
+	if (days <= 30) return "bg-yellow-100 text-yellow-800";
+	return "bg-green-100 text-green-800";
 };
 
 const formatDate = (dateString: string): string => {
-  return new Date(dateString).toLocaleDateString('pt-BR');
+	return new Date(dateString).toLocaleDateString("pt-BR");
 };
 
 const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
-  return (
-    <div className="group bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer mt-4">
+	const { setIsOpenModal, isOpenModal } = useModalStore();
+
+	const toggleModal = () => {
+		setIsOpenModal(!isOpenModal);
+	};
+
+	return (
+		<div onClick={() => toggleModal()} className="group bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer mt-4">
     
       <div className="hidden md:flex items-center gap-4">
         <img 
-          src="/api/placeholder/80/80"
+          src="https://utfs.io/f/N6wJhTQgnlQ7552cIQlYtTLJGhOCVn4HZke9s7g1X60rWDAB"
           alt={product.name}
           className="w-12 h-12 rounded-lg object-cover"
         />
@@ -126,7 +133,7 @@ const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
         </div>
       </div>
     </div>
-  );
+	);
 };
 
 export default ProductRow;

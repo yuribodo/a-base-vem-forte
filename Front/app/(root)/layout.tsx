@@ -1,32 +1,42 @@
-'use client'
+"use client";
+import { usePathname } from "next/navigation";
 import SideBar from "@/components/Layout/SideBar";
 import Header from "@/components/Layout/Header";
 import AuthProvider from "@/context/AuthContext";
 import "../../styles/globals.css";
-import useAuthContext from "@/hooks/useAuthContext";
 
 export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const pathname = usePathname();
+
+	const excludedRoutes = ["/auth/login", "/auth/register"];
+
+	const shouldExcludeLayout = excludedRoutes.includes(pathname);
+
 	return (
 		<html lang="pt-br">
 			<AuthProvider>
-				<LayoutContent>{children}</LayoutContent>
+				{shouldExcludeLayout ? (
+					<html>
+						<body>{children}</body>
+					</html>
+				) : (
+					<LayoutContent>{children}</LayoutContent>
+				)}
 			</AuthProvider>
 		</html>
 	);
 }
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
-	const { isLogged } = useAuthContext()!;
-
 	return (
 		<body className="h-screen flex flex-col">
 			<Header />
 			<div className="flex flex-grow w-full">
-				{isLogged && <SideBar className="hidden lg:block" />}
+				<SideBar className="hidden lg:block" />
 				<main className="flex-grow">{children}</main>
 			</div>
 		</body>
