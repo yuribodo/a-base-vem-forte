@@ -1,16 +1,13 @@
 import { create } from "zustand";
 
-export type State = {
-    isModalOpen: boolean;
+interface isOpenModalStore {
+	isOpenModal: boolean;
+	setIsOpenModal: (value: boolean) => void;
 }
 
-export type Action  = {
-    setIsModalOpen: (isModalOpen: State['isModalOpen']) => void;
-}
-
-const useIsOpenModalStore = create<State & Action>((set) => ({
-    isModalOpen: false,
-    setIsModalOpen: (isModalOpen) => set({ isModalOpen })
+const useModalStore = create<isOpenModalStore>((set) => ({
+	isOpenModal: false,
+	setIsOpenModal: (value: boolean) => set({ isOpenModal: value }),
 }));
 
-export default useIsOpenModalStore;
+export default useModalStore;
