@@ -7,7 +7,7 @@ export default function Home() {
 	return (
 		<main className="w-full h-full min-h-screen">
 			<Banner />
-			<FeaturesSection />
+			{/* {<FeaturesSection />} */}
 		</main>
 	);
 }
