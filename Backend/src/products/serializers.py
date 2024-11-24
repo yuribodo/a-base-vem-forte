@@ -20,10 +20,10 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id"]
 
-    def create(self, data):
+    def create(self, validated_data):
 
-        expiration_date = data.get("expiration_date", None)
-        date_of_manufacture = data.get("date_of_manufacture", None)
+        expiration_date = validated_data.get("expiration_date", None)
+        date_of_manufacture = validated_data.get("date_of_manufacture", None)
 
         if expiration_date and date_of_manufacture:
             if expiration_date < date_of_manufacture:
@@ -31,4 +31,4 @@ class ProductSerializer(serializers.ModelSerializer):
                     "A data de validade não pode ser anterior à data de fabricação."
                 )
 
-        return data
+        return Products.objects.create(**validated_data)
