@@ -40,12 +40,12 @@ const Header = () => {
 
 
         <nav className="hidden md:flex items-center gap-5">
-          <Link href="/">
+          <Link href="/auth/login">
             <button className="px-6 py-2 text-[1.05rem] rounded-full transition-all duration-300 hover:bg-buttonBgColor/90 hover:shadow-lg">
               Login
             </button>
           </Link>
-          <Link href="/">
+          <Link href="/auth/register">
             <button className="px-6 py-2 text-[1.05rem] bg-buttonBgColor rounded-full transition-all duration-300 hover:bg-buttonBgColor/90 hover:shadow-lg">
               Cadastre-se
             </button>
@@ -85,7 +85,7 @@ const Header = () => {
       >
         <div className="flex flex-col items-center justify-center h-full gap-8 p-6">
           <Link
-            href="/"
+            href="/auth/login"
             className="w-full"
             onClick={() => setIsOpen(false)}
           >
@@ -94,7 +94,7 @@ const Header = () => {
             </button>
           </Link>
           <Link
-            href="/"
+            href="/auth/register"
             className="w-full"
             onClick={() => setIsOpen(false)}
           >
