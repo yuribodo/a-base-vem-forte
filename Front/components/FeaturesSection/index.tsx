@@ -6,7 +6,7 @@ export default function index() {
     <section className='w-full h-screen bg-principalColor p-7 pt-12'>
         <h2 className='text-3xl text-center text-white uppercase font-semibold'>Funcionalidades</h2>
 
-        <div className="w-full h-full flex gap-10 px-10 justify-center items-center">
+        <div className="w-full h-full flex flex-col lg:flex-row gap-10 px-10 justify-center items-center">
             <div className="w-full max-w-[320px]">
                 <Image
                     src={""}

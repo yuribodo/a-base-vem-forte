@@ -45,10 +45,11 @@ const formatDate = (dateString: string): string => {
 };
 
 const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
-  const { setIsOpenModal, isOpenModal } = useModalStore();
+  const { setIsOpenModal, setSelectedProductId, isOpenModal } = useModalStore();
 
   const toggleModal = () => {
-    setIsOpenModal(!isOpenModal);
+    setSelectedProductId(product.id); // Passa o ID do produto para o estado global
+    setIsOpenModal(!isOpenModal); // Abre/fecha o modal
   };
 
   const daysLeft = getDaysLeft(product.expiration_date);

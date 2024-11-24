@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import dotenv
 import os
@@ -54,10 +55,13 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
+
 THIRD_PARTY_APPS = [
     "rest_framework",
     'corsheaders',
+    "drf_spectacular",
 ]
+
 
 LOCAL_APPS = [
     "products.apps.ProductsConfig",
@@ -87,6 +91,23 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "_core.urls"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
 
 TEMPLATES = [
     {
@@ -158,3 +179,17 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "EcoFood API",
+    "DESCRIPTION": "Gestão sustentável de alimentos.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "TAGS": [
+        {"name": "Register", "description": "Cadastro de usuários."},
+        {"name": "Login", "description": "Autenticação de usuários."},
+        {"name": "Products", "description": "Gestão de produtos."},
+        {"name": "Log", "description": "Histórico de atividades."},
+    ],
+    "SORT_OPERATIONS": False,
+}
