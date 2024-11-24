@@ -7,6 +7,7 @@ from .serializers import LogSerializer
 class LogListCreateView(generics.ListCreateAPIView):
     queryset = Log.objects.all()
     serializer_class = LogSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
