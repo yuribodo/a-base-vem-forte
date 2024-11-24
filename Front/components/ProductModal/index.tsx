@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { CircleX, Recycle, Trash } from "lucide-react";
 import useModalStore from "../../store/OpenProductModal";
+import productImage from '@/assets/product-image.jpg'
 
 const mockProducts = {
 	id: 1,
@@ -14,8 +15,7 @@ const mockProducts = {
 	quantity: 5,
 	price: 10,
 	productCode: "55FRT",
-	productIMG:
-		"",
+	productIMG: productImage,
 };
 
 export default function ProductModal() {

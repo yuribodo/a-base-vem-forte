@@ -40,7 +40,7 @@ const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
     
       <div className="hidden md:flex items-center gap-4">
         <img 
-          src="/api/placeholder/80/80"
+          src="https://utfs.io/f/N6wJhTQgnlQ7552cIQlYtTLJGhOCVn4HZke9s7g1X60rWDAB"
           alt={product.name}
           className="w-12 h-12 rounded-lg object-cover"
         />
