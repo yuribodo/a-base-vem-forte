@@ -20,13 +20,12 @@ export default function RootLayout({
 }
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
-	const { isLogged } = useAuthContext()!;
 
 	return (
 		<body className="h-screen flex flex-col">
 			<Header />
 			<div className="flex flex-grow w-full">
-				{isLogged && <SideBar className="hidden lg:block" />}
+				<SideBar className="hidden lg:block" />
 				<main className="flex-grow">{children}</main>
 			</div>
 		</body>
