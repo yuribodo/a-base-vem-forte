@@ -83,7 +83,7 @@ const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
         <div className="flex items-start gap-3">
          
           <img 
-            src="/api/placeholder/80/80"
+            src="https://utfs.io/f/N6wJhTQgnlQ7552cIQlYtTLJGhOCVn4HZke9s7g1X60rWDAB"
             alt={product.name}
             className="w-16 h-16 rounded-lg object-cover"
           />
