@@ -72,7 +72,7 @@ const DashboardPage = () => {
   
 
   return (
-    <main className="w-full p-4 max-w-full overflow-x-hidden">
+    <main className="w-full p-8 max-w-full overflow-x-hidden">
     <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
     <div className="flex flex-col md:flex-row items-center w-full gap-4">
         <div className="bg-white shadow-xl w-full md:w-3/4 lg:w-2/3 rounded-lg p-4">
