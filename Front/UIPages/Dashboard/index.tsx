@@ -1,6 +1,7 @@
 'use client';
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import ProdutosPorCategoria from "@/components/ProductsCategory";
@@ -10,53 +11,49 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface Product {
   id: number;
-  image: string;
   name: string;
+  description: string;
   category: string;
-  expirationDate: string;
-  daysLeft: number;
-  quantity: number;
   price: string;
+  expiration_date: string;
+  quantity: number;
+  code_product: string;
+  destination: string;
   is_perishable: boolean;
+  date_of_manufacture: string;
 }
 
-const mockedProducts: Product[] = [
-  {
-    id: 1,
-    image: 'https://via.placeholder.com/100',
-    category: 'bla',
-    name: 'Produto A',
-    expirationDate: '2024-12-15',
-    daysLeft: 22,
-    quantity: 10,
-    price: '20,00',
-    is_perishable: true,
-  },
-  {
-    id: 2,
-    image: 'https://via.placeholder.com/100',
-    category: 'bla',
-    name: 'Produto B',
-    expirationDate: '2024-11-30',
-    daysLeft: 7,
-    quantity: 5,
-    price: '50,00',
-    is_perishable: true,
-  },
-  {
-    id: 3,
-    image: 'https://via.placeholder.com/100',
-    name: 'Produto C',
-    category: 'bla',
-    expirationDate: '2024-12-25',
-    daysLeft: 32,
-    quantity: 20,
-    price: '15,00',
-    is_perishable: true,
-  },
-];
-
 const DashboardPage = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get<Product[]>('http://127.0.0.1:8000/api/products/');
+        setProducts(response.data);
+        setError(null);
+      } catch (err) {
+        setError('Erro ao carregar produtos. Por favor, tente novamente mais tarde.');
+        console.error('Error fetching products:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const calculateDaysLeft = (expirationDate: string) => {
+    const today = new Date();
+    const expDate = new Date(expirationDate);
+    const diffTime = expDate.getTime() - today.getTime();
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  };
+  
+
   const chartData = {
     labels: ["Válidos", "Quase vencendo", "Vencidos"],
     datasets: [
@@ -68,18 +65,32 @@ const DashboardPage = () => {
     ],
   };
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-center text-gray-500">Carregando dados...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-center text-red-500">{error}</div>
+      </div>
+    );
+  }
+
   return (
     <main className="w-full p-8 md:p-8 max-w-full overflow-x-hidden">
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
 
       <div className="flex flex-col md:hidden gap-4">
-     
         <div className="bg-white shadow-md rounded-lg p-4">
           <h2 className="text-lg font-bold mb-2">Controle de Validade</h2>
           <div className="w-full max-w-[200px] mx-auto">
             <Pie data={chartData} />
           </div>
-       
           <div className="mt-4 flex flex-wrap justify-center gap-4">
             {chartData.labels.map((label, index) => (
               <div key={label} className="flex items-center">
@@ -95,32 +106,40 @@ const DashboardPage = () => {
           </div>
         </div>
 
-
         <div className="bg-white shadow-xl rounded-lg p-4">
           <h2 className="text-lg font-bold mb-2">Últimos Produtos Cadastrados</h2>
-          {mockedProducts.length === 0 ? (
+          {products.length === 0 ? (
             <div className="text-center py-4 text-gray-500">
               Nenhum produto encontrado
             </div>
           ) : (
-            mockedProducts.map((product) => (
-              <ProductRow key={product.id} product={product} />
+            products.slice(0, 3).map((product) => (
+              <ProductRow key={product.id} product={{
+                ...product,
+                daysLeft: calculateDaysLeft(product.expiration_date),
+                
+                image: "https://via.placeholder.com/100"
+              }} />
             ))
           )}
         </div>
       </div>
 
-
       <div className="hidden md:flex md:flex-row items-start w-full gap-4">
         <div className="bg-white shadow-xl w-full md:w-3/4 lg:w-2/3 rounded-lg p-4">
           <h2 className="text-lg font-bold mb-2">Últimos Produtos Cadastrados</h2>
-          {mockedProducts.length === 0 ? (
+          {products.length === 0 ? (
             <div className="text-center py-4 text-gray-500">
               Nenhum produto encontrado
             </div>
           ) : (
-            mockedProducts.map((product) => (
-              <ProductRow key={product.id} product={product} />
+            products.slice(0, 3).map((product) => (
+              <ProductRow key={product.id} product={{
+                ...product,
+                daysLeft: calculateDaysLeft(product.expiration_date),
+                
+                image: "https://via.placeholder.com/100"
+              }} />
             ))
           )}
         </div>
@@ -133,7 +152,6 @@ const DashboardPage = () => {
         </div>
       </div>
 
-     
       <div className="p-4 bg-white shadow-lg rounded-lg mt-4 w-full md:w-3/4 lg:w-2/3 mx-auto">
         <h2 className="text-lg font-bold mb-2">Produtos por Categoria</h2>
         <ProdutosPorCategoria />
