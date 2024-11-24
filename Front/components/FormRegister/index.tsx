@@ -70,9 +70,9 @@ const FormRegister = () => {
 			confirmPassword: "",
 		},
 	});
-	const isLoading = true;
+	
 
-	const { onHandleRegister } = useAuthContext();
+	const { onHandleRegister, isLoading } = useAuthContext();
 
 	return (
 		<form
