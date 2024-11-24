@@ -8,6 +8,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErroMessage from "../ErrorMessage";
 import Label from "../Label";
+import useAuthContext from "@/hooks/useAuthContext";
+import { useRouter } from "next/navigation";
+
 
 const loginSchema = z.object({
 	email: z
@@ -21,9 +24,14 @@ const loginSchema = z.object({
 		.min(6, "A sua senha deve ter no mínimo 6 caracteres"),
 });
 
+
+
 type loginTypes = z.infer<typeof loginSchema>;
 
 const FormLogin = () => {
+
+	const router = useRouter()
+	const {onHandleLogin} = useAuthContext()
 	const {
 		register,
 		handleSubmit,
@@ -35,8 +43,20 @@ const FormLogin = () => {
 	});
 
 	const handleSubmitLogin = async (dados: loginTypes) => {
+		try {
+			onHandleLogin(dados)
+			await new Promise(resolve => {
+				setTimeout(() => {
+					resolve(true);
+				}, 1000);
+			})
+			router.push('/dashboard')
+		} catch (error) {
+			
+		}
 		console.log("Dados enviados:", dados);
 	};
+	
 	const isLoading = false;
 	return (
 		<form

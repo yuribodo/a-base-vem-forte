@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Products(models.Model):
+
     DESTINATION_CHOICES = [
         ("SALE", "Sale"),
         ("DONATION", "donation"),

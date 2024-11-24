@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { formattedPrice } from "@/utils/formattedPrice";
 import TableRow from "../TableRow";
 import { formattedDate } from "@/utils/formattedDate";
@@ -8,125 +10,55 @@ import {
 	countDonatedProducts,
 	filterProductsByTab,
 } from "@/utils/filters";
-const mockedProducts = [
-	{
-		nome: "Produto 1",
-		descricao: "Descrição detalhada do produto 1",
-		categoria: "Categoria A",
-		preco: 25.99,
-		quantidade: 10,
-		codeProduct: "001",
-		destino: "Destino X",
-		validade: "2021-08-10",
-	},
-	{
-		nome: "Produto 2",
-		descricao: "Descrição detalhada do produto 2",
-		categoria: "Categoria B",
-		preco: 28.8,
-		quantidade: 20,
-		codeProduct: "002",
-		destino: "Doação",
-		validade: "2026-06-15",
-	},
-	{
-		nome: "Produto 3",
-		descricao: "Descrição detalhada do produto 3",
-		categoria: "Categoria C",
-		preco: 40.0,
-		quantidade: 5,
-		codeProduct: "003",
-		destino: "Destino Z",
-		validade: "2024-12-31",
-	},
-	{
-		nome: "Produto 4",
-		descricao: "Descrição detalhada do produto 4",
-		categoria: "Categoria A",
-		preco: 30.0,
-		quantidade: 8,
-		codeProduct: "004",
-		destino: "Destino W",
-		validade: "2025-08-30",
-	},
-	{
-		nome: "Produto 5",
-		descricao: "Descrição detalhada do produto 5",
-		categoria: "Categoria B",
-		preco: 50.75,
-		quantidade: 12,
-		codeProduct: "005",
-		destino: "Destino V",
-		validade: "2026-01-01",
-	},
-	{
-		nome: "Produto 6",
-		descricao: "Descrição detalhada do produto 6",
-		categoria: "Categoria C",
-		preco: 19.99,
-		quantidade: 15,
-		codeProduct: "006",
-		destino: "Destino U",
-		validade: "2024-11-30",
-	},
-	{
-		nome: "Produto 7",
-		descricao: "Descrição detalhada do produto 7",
-		categoria: "Categoria A",
-		preco: 35.0,
-		quantidade: 7,
-		codeProduct: "007",
-		destino: "Destino T",
-		validade: "2025-09-15",
-	},
-	{
-		nome: "Produto 8",
-		descricao: "Descrição detalhada do produto 8",
-		categoria: "Categoria B",
-		preco: 12.49,
-		quantidade: 18,
-		codeProduct: "008",
-		destino: "Destino S",
-		validade: "2026-03-20",
-	},
-	{
-		nome: "Produto 9",
-		descricao: "Descrição detalhada do produto 9",
-		categoria: "Categoria C",
-		preco: 45.0,
-		quantidade: 6,
-		codeProduct: "009",
-		destino: "Destino R",
-		validade: "2025-11-25",
-	},
-	{
-		nome: "Produto 10",
-		descricao: "Descrição detalhada do produto 10",
-		categoria: "Categoria A",
-		preco: 29.9,
-		quantidade: 20,
-		codeProduct: "010",
-		destino: "Destino Q",
-		validade: "2026-10-01",
-	},
-];
 
-export interface MockedProducts {
-	nome: string;
-	descricao: string;
-	categoria: string;
-	preco: number;
-	quantidade: number;
-	codeProduct: string;
-	destino: string;
-	validade: string;
-}
+interface Product {
+	id: number;
+	name: string;
+	description: string;
+	category: string;
+	price: string;
+	expiration_date: string;
+	quantity: number;
+	code_product: string;
+	destination: string;
+	is_perishable: boolean;
+	date_of_manufacture: string;
+  }
+
 const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
-	const filteredProducts = filterProductsByTab(mockedProducts, tab);
+	const [products, setProducts] = useState<Product[]>([]);
+	const [loading, setLoading] = useState<boolean>(true);
+	const [error, setError] = useState<string | null>(null);
 
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				setLoading(true);
+				const response = await axios.get("http://127.0.0.1:8000/api/products/"); 
+				setProducts(response.data);
+			} catch (err) {
+				setError("Erro ao carregar os produtos. Tente novamente.");
+				console.error(err);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchProducts();
+	}, []);
+
+	const filteredProducts = filterProductsByTab(products, tab);
 	const totalValue = calculateTotalValue(filteredProducts);
 	const donatedProductsCount = countDonatedProducts(filteredProducts);
 	const valueDonatedProducts = calculateDonatedProductsValue(filteredProducts);
+
+	if (loading) {
+		return <p>Carregando produtos...</p>;
+	}
+
+	if (error) {
+		return <p>{error}</p>;
+	}
 
 	return (
 		<div className="max-h-[600px] overflow-y-auto overflow-x-auto bg-white shadow-lg border-t-[1px] rounded-lg">
@@ -176,17 +108,17 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 					</tr>
 				</thead>
 				<tbody>
-					{filteredProducts.map((product, index) => (
+					{products.map((product, index) => (
 						<TableRow
 							key={index}
-							productName={product.nome}
-							productDescription={product.descricao}
-							productCategory={product.categoria}
-							productPrice={formattedPrice(product.preco)}
-							productDestiny={product.destino}
-							productQuantity={product.quantidade}
-							productCode={product.codeProduct}
-							productValidity={formattedDate(product.validade)}
+							productName={product.name}
+							productDescription={product.description}
+							productCategory={product.category}
+							productPrice={product.price}
+							productDestiny={product.destination}
+							productQuantity={product.quantity}
+							productCode={product.code_product}
+							productValidity={formattedDate(product.expiration_date)}
 							tempoRestante={daysLeft(product)}
 						/>
 					))}

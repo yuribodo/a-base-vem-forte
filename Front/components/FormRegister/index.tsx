@@ -9,6 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ErroMessage from "../ErrorMessage";
 import Label from "../Label";
 import React from "react";
+import useAuthContext from "@/hooks/useAuthContext";
+
 
 const registerSchema = z
 	.object({
@@ -20,16 +22,16 @@ const registerSchema = z
 			.string()
 			.min(3, "O campo nome deve ter pelo menos 3 caracteres")
 			.max(100, "O campo nome deve ter no maximo 100 caracteres"),
-		documentType: z.string().min(1, "O campo tipo de documento é obrigatório"),
+		document_type: z.string().min(1, "O campo tipo de documento é obrigatório"),
 		email: z
 			.string()
 			.min(1, "O campo email é obrigatório")
 			.email("O email não é valido, insira um email valido"),
-		cpf: z
+		document: z
 			.string()
 			.min(11, "O campo cpf deve ter pelo menos 11 caracteres")
 			.max(11, "O campo cpf deve ter no maximo 11 caracteres"),
-		enterpriseSegment: z
+		enterprise_segment: z
 			.string()
 			.min(1, "O campo segmento empresarial é obrigatório"),
 		password: z.string().min(6, "A sua senha deve ter no minimo 6 caracteres"),
@@ -60,24 +62,22 @@ const FormRegister = () => {
 			firstName: "",
 			phoneNumber: "",
 			lastName: "",
-			documentType: "",
+			document_type: "",
 			email: "",
-			cpf: "",
-			enterpriseSegment: "",
+			document: "",
+			enterprise_segment: "",
 			password: "",
 			confirmPassword: "",
 		},
 	});
-	const isLoading = true;
+	
 
-	const handleSubmitLogin = (dados: registerTypes) => {
-		console.log(dados);
-	};
+	const { onHandleRegister, isLoading } = useAuthContext();
 
 	return (
 		<form
 			className="grid grid-cols-2 w-full gap-6"
-			onSubmit={handleSubmit(handleSubmitLogin)}
+			onSubmit={handleSubmit(onHandleRegister)}
 		>
 			<div className="flex flex-col gap-1">
 				<Label htmlFor="firstName">Nome</Label>
@@ -137,18 +137,18 @@ const FormRegister = () => {
 				<Label htmlFor="documentType">Documento</Label>
 				<select
 					className={`h-9 bg-transparent text-base border-[1px] px-2 rounded-md w-full ease-in-out duration-200 ${
-						errors.documentType && "border-red-500"
+						errors.document_type && "border-red-500"
 					}`}
-					{...register("documentType")}
+					{...register("document_type")}
 				>
 					<option value="" disabled className="text-gray-400">
 						Selecione o tipo de documento
 					</option>
-					<option value="cpf">CPF</option>
-					<option value="cnpj">CNPJ</option>
+					<option value="CPF">CPF</option>
+					<option value="CNPJ">CNPJ</option>
 				</select>
-				{errors.documentType && (
-					<ErroMessage>{errors.documentType.message}</ErroMessage>
+				{errors.document_type && (
+					<ErroMessage>{errors.document_type.message}</ErroMessage>
 				)}
 			</div>
 			<div className="flex flex-col gap-1">
@@ -157,11 +157,11 @@ const FormRegister = () => {
 					placeholder="Insira seu documento..."
 					type="text"
 					className={`h-9 bg-transparent text-base border-[1px] rounded-md w-full ease-in-out duration-200 focus:border-0 ${
-						errors.cpf && "border-red-500"
+						errors.document && "border-red-500"
 					}`}
-					{...register("cpf")}
+					{...register("document")}
 				/>
-				{errors.cpf && <ErroMessage>{errors.cpf.message}</ErroMessage>}
+				{errors.document && <ErroMessage>{errors.document.message}</ErroMessage>}
 			</div>
 			<div className="flex flex-col gap-1 col-span-2">
 				<Label htmlFor="enterpriseSegment">Segmento da empresa</Label>
@@ -169,12 +169,12 @@ const FormRegister = () => {
 					placeholder="Digite o segmento da sua empresa..."
 					type="text"
 					className={`h-9 bg-transparent text-base border-[1px] rounded-md w-full ease-in-out duration-200 ${
-						errors.enterpriseSegment && "border-red-500"
+						errors.enterprise_segment && "border-red-500"
 					}`}
-					{...register("enterpriseSegment")}
+					{...register("enterprise_segment")}
 				/>
-				{errors.enterpriseSegment && (
-					<ErroMessage>{errors.enterpriseSegment.message}</ErroMessage>
+				{errors.enterprise_segment && (
+					<ErroMessage>{errors.enterprise_segment.message}</ErroMessage>
 				)}
 			</div>
 			<div className="flex flex-col gap-1">
