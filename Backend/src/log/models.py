@@ -1,9 +1,9 @@
 from django.db import models
 from user.models import User
-from products.models import Products
 
 
 class Log(models.Model):
+
     ACTION_CHOICE = [
         ("UPDATE QUANTITY", "Update the quantity"),
         ("UPDATE PRICE", "Update the price"),

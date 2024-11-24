@@ -4,9 +4,13 @@ from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from user.models import User
+from .serializers import LoginUserSerializer
+from drf_spectacular.utils import extend_schema
 
 
+@extend_schema(tags=["Login"])
 class LoginView(CreateAPIView):
+    serializer_class = LoginUserSerializer
 
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
