@@ -1,3 +1,5 @@
+import { montserrat } from "@/assets/fonts";
+
 export const metadata = {
 	title: "Eco Food",
 	description: "Descrição do seu aplicativo.",
@@ -18,7 +20,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="pt-br">
-			<body>{children}</body>
+			<body className={montserrat.className}>{children}</body>
 		</html>
 	);
 }
