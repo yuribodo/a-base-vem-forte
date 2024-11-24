@@ -12,3 +12,7 @@ class User(AbstractUser):
     document_type = models.CharField(max_length=4, choices=CPF_CNPJ_CHOICES)
     enterprise_segment = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
+    email = models.EmailField(unique=True)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
