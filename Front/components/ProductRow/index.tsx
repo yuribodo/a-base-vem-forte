@@ -34,6 +34,7 @@ const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
 	const toggleModal = () => {
 		setIsOpenModal(!isOpenModal);
 	};
+
 	return (
 		<div
 			onClick={() => toggleModal()}
@@ -103,9 +104,7 @@ const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
 						<div className="flex flex-wrap items-center gap-2 mt-1">
 							<div className="flex items-center gap-1">
 								<Tag className="w-3 h-3 text-gray-400" />
-								<span className="text-xs text-gray-500">
-									{product.category}
-								</span>
+								<span className="text-xs text-gray-500">{product.category}</span>
 							</div>
 							{product.is_perishable && (
 								<div className="flex items-center gap-1 text-amber-600">
