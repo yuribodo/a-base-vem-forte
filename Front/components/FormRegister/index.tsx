@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ErroMessage from "../ErrorMessage";
 import Label from "../Label";
 import React from "react";
+import useAuthContext from "@/hooks/useAuthContext";
 
 const registerSchema = z
 	.object({
@@ -70,14 +71,12 @@ const FormRegister = () => {
 	});
 	const isLoading = true;
 
-	const handleSubmitLogin = (dados: registerTypes) => {
-		console.log(dados);
-	};
+	const { onHandleRegister } = useAuthContext();
 
 	return (
 		<form
 			className="grid grid-cols-2 w-full gap-6"
-			onSubmit={handleSubmit(handleSubmitLogin)}
+			onSubmit={handleSubmit(onHandleRegister)}
 		>
 			<div className="flex flex-col gap-1">
 				<Label htmlFor="firstName">Nome</Label>
@@ -144,8 +143,8 @@ const FormRegister = () => {
 					<option value="" disabled className="text-gray-400">
 						Selecione o tipo de documento
 					</option>
-					<option value="cpf">CPF</option>
-					<option value="cnpj">CNPJ</option>
+					<option value="CPF">CPF</option>
+					<option value="CNPJ">CNPJ</option>
 				</select>
 				{errors.documentType && (
 					<ErroMessage>{errors.documentType.message}</ErroMessage>

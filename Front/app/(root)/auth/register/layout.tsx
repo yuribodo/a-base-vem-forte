@@ -1,4 +1,5 @@
 import { montserrat } from "@/assets/fonts";
+import AuthProvider from "@/context/AuthContext";
 
 export default function RegisterLayout({
 	children,
@@ -6,10 +7,12 @@ export default function RegisterLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<div
-			className={`bg-transparent min-w-[400px] min-h-[390px] mx-auto flex flex-col items-center px-6 ${montserrat.className} `}
-		>
-			{children}
-		</div>
+		<AuthProvider>
+			<div
+				className={`bg-transparent min-w-[400px] min-h-[390px] mx-auto flex flex-col items-center px-6 ${montserrat.className} `}
+			>
+				{children}
+			</div>
+		</AuthProvider>
 	);
 }
