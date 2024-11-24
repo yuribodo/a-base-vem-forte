@@ -41,7 +41,7 @@ Before you start, ensure you have `node` and `npm` installed on your machine.
 2. **Navigate to the repository**:
 
    ```bash
-   cd full-stack-template
+   cd a-base-vem-forte
    ```
 
 3. **Install the dependencies**:
