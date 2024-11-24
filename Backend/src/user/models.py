@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.utils.crypto import get_random_string
 
 
 class User(AbstractUser):
@@ -16,3 +17,8 @@ class User(AbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+
+    def save(self, *args, **kwargs):
+        if not self.username:
+            self.username = get_random_string(8)
+        super().save(*args, **kwargs)
