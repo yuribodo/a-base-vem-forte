@@ -17,6 +17,8 @@ class ProductSerializer(serializers.ModelSerializer):
             "destination",
             "is_perishable",
             "date_of_manufacture",
+            "recycle",
+            "discard",
         ]
         read_only_fields = ["id"]
 
@@ -32,3 +34,24 @@ class ProductSerializer(serializers.ModelSerializer):
                 )
 
         return Products.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        recycle = validated_data.get("recycle", instance.recycle)
+        discard = validated_data.get("discard", instance.discard)
+
+        if recycle and discard:
+            raise serializers.ValidationError(
+                "A product cannot be recycled and discarded at the same time."
+            )
+
+        if recycle or discard:
+            if instance.quantity <= 0:
+                raise serializers.ValidationError(
+                    "It is not possible to recycle or dispose of a product with zero quantity."
+                )
+            instance.quantity -= 1
+
+            instance.recycle = recycle
+            instance.discard = discard
+
+            return super().update(instance, validated_data)

@@ -29,3 +29,7 @@ class Products(models.Model):
     destination = models.CharField(max_length=8, choices=DESTINATION_CHOICES)
     is_perishable = models.BooleanField(default=True)
     date_of_manufacture = models.DateField()
+    recycle = models.BooleanField(default=False)
+    discard = models.BooleanField(default=False)
+    total_recycled = models.PositiveIntegerField(default=0)
+    total_discarded = models.PositiveIntegerField(default=0)

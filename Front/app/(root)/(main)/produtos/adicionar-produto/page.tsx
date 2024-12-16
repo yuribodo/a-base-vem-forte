@@ -2,13 +2,15 @@
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Spinner from "../../../../../components/SpinnerLoading";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErroMessage from "../../../../../components/ErrorMessage";
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -35,8 +37,6 @@ const loginSchema = z.object({
 	manufactoringDate: z
 		.string()
 		.regex(dateRegex, "Formato de data inválido (use DD/MM/YYYY)")
-		.optional()
-		.or(z.literal(''))
 		.refine(
 			(date) => {
 				if (!date) return true; 
@@ -73,8 +73,6 @@ type loginTypes = z.infer<typeof loginSchema>;
 
 export default function Page() {
 
-	
-
 	const {
 		register,
 		handleSubmit,
@@ -101,6 +99,8 @@ export default function Page() {
 	};
 
 	const [isLoading, setIsLoading] = useState(false);
+	const router = useRouter();
+
 
 	const handleProductSubmit = async (dados: loginTypes) => {
 		setIsLoading(true);
@@ -122,9 +122,15 @@ export default function Page() {
 		try {
 			const response = await axios.post('http://127.0.0.1:8000/api/products/', sanitizedData);
 			console.log("Product added:", response.data);
+			toast.success('Produto adicionado com sucesso!');
 			
-		} catch (error) {
+			setTimeout(() => {
+				router.push('/produtos');
+			}, 2000);
+			
+		} catch (error: any) {
 			console.error("Error adding product:", error);
+			toast.error('Ocorreu um erro ao adicionar o produto.');
 			
 		} finally {
 			setIsLoading(false);
@@ -135,11 +141,12 @@ export default function Page() {
 
 	return (
 		<main className="w-full h-full flex flex-col items-start p-8 gap-6">
+			<Toaster />
 			<div className="w-full flex justify-start">
 				<h1 className="text-2xl font-bold">Adicionar Produto</h1>
 			</div>
 			<form
-				className="w-full flex flex-col gap-6"
+				className="w-full flex flex-col gap-6 items-center"
 				onSubmit={handleSubmit(handleProductSubmit)}
 			>
 				<div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -191,7 +198,7 @@ export default function Page() {
 					</div>
 					
 					<div>
-						<Label htmlFor="validateDate">Data de Fabricação (opcional)</Label>
+						<Label htmlFor="validateDate">Data de Fabricação</Label>
 						<Input
 							type="text"
 							placeholder="DD/MM/YYYY"
@@ -241,7 +248,7 @@ export default function Page() {
 					</div>
 				</div>
 
-				<Button type="submit" >
+				<Button type="submit" className='text-white font-medium w-full max-w-xl mt-5'>
 					{isLoading ? <Spinner /> : "Adicionar Produto"}
 				</Button>
 			</form>
