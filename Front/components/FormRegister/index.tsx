@@ -10,7 +10,8 @@ import ErroMessage from "../ErrorMessage";
 import Label from "../Label";
 import React from "react";
 import useAuthContext from "@/hooks/useAuthContext";
-
+import { AxiosError } from "axios";
+import { showToast } from "../ReactToast";
 
 const registerSchema = z
 	.object({
@@ -70,14 +71,32 @@ const FormRegister = () => {
 			confirmPassword: "",
 		},
 	});
-	
 
 	const { onHandleRegister, isLoading } = useAuthContext();
-
+	const onRegister = async (data: registerTypes) => {
+		try {
+			const res = await onHandleRegister(data, setError);
+			if(!res) return
+			showToast("success", "Usuário cadastrado com sucesso!");
+		} catch (error) {
+			console.log("Error");
+			if (error instanceof AxiosError) {
+				setError("root", {
+					type: "manual",
+					message: error.response?.data?.message,
+				});
+			} else {
+				setError("root", {
+					type: "manual",
+					message: "Erro desconhecido",
+				});
+			}
+		}
+	};
 	return (
 		<form
 			className="grid grid-cols-2 w-full gap-6"
-			onSubmit={handleSubmit(onHandleRegister)}
+			onSubmit={handleSubmit(onRegister)}
 		>
 			<div className="flex flex-col gap-1">
 				<Label htmlFor="firstName">Nome</Label>
@@ -161,7 +180,9 @@ const FormRegister = () => {
 					}`}
 					{...register("document")}
 				/>
-				{errors.document && <ErroMessage>{errors.document.message}</ErroMessage>}
+				{errors.document && (
+					<ErroMessage>{errors.document.message}</ErroMessage>
+				)}
 			</div>
 			<div className="flex flex-col gap-1 col-span-2">
 				<Label htmlFor="enterpriseSegment">Segmento da empresa</Label>
@@ -205,6 +226,7 @@ const FormRegister = () => {
 					<ErroMessage>{errors.confirmPassword.message}</ErroMessage>
 				)}
 			</div>
+			{errors.root && <ErroMessage>{errors.root.message}</ErroMessage>}
 			<Button
 				type="submit"
 				className="text-white h-[42px] hover:bg-[#3a8b40] transition-colors duration-100 ease-linear font-semibold text-[20px] col-span-2"
