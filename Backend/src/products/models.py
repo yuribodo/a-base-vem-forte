@@ -31,3 +31,5 @@ class Products(models.Model):
     date_of_manufacture = models.DateField()
     recycle = models.BooleanField(default=False)
     discard = models.BooleanField(default=False)
+    total_recycled = models.PositiveIntegerField(default=0)
+    total_discarded = models.PositiveIntegerField(default=0)
