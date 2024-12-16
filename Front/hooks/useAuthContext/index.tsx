@@ -2,6 +2,8 @@
 import apiClient from "@/axios";
 import { AuthContext } from "@/context/AuthContext";
 import { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import { showToast } from "@/components/ReactToast";
 
 const useAuthContext = () => {
 	const context = useContext(AuthContext)!;
@@ -9,6 +11,8 @@ const useAuthContext = () => {
 	if (!context) {
 		throw new Error("useAuthContext must be used within an AuthProvider");
 	}
+
+	const router = useRouter();
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [sucessMessage, setSucessMessage] = useState("");
@@ -58,7 +62,10 @@ const useAuthContext = () => {
 		window.location.href = "/auth/login";
 	};
 
-	const onHandleRegister = async (registerUser: registerTypes) => {
+	const onHandleRegister = async (
+		registerUser: registerTypes,
+		setError: any
+	) => {
 		setIsLoading(true);
 		try {
 			const {
@@ -72,7 +79,6 @@ const useAuthContext = () => {
 				phoneNumber,
 			} = registerUser;
 
-
 			const newPayload = {
 				document,
 				document_type,
@@ -82,24 +88,37 @@ const useAuthContext = () => {
 				lastName,
 				password,
 				phoneNumber,
-			}
-			console.log(newPayload)
+			};
+			console.log(newPayload);
 
-			const responseLogin = await apiClient.post(
-				"register/",
-				newPayload
-			);
-			console.log(responseLogin)
+			const responseLogin = await apiClient.post("register/", newPayload);
+			console.log(responseLogin);
 
 			if (responseLogin.status !== 201) {
 				throw new Error("Registro inválido");
 			}
 
 			setSucessMessage("Usuário cadastrado com sucesso!");
-		} catch (error) {
-			console.log(error);
+			showToast("success", "Usuário cadastrado com sucesso!");
 
-			throw new Error("Server Error");
+			router.push("/auth/login");
+			return true;
+		} catch (error: any) {
+			if (error.response && error.response.data) {
+				const apiErrors = error.response.data.errors || error.response.data;
+
+				Object.keys(apiErrors).forEach((field) => {
+					setError(field, {
+						type: "server",
+						message: apiErrors[field],
+					});
+				});
+			} else {
+				setError("root", {
+					type: "server",
+					message: "Ocorreu um erro desconhecido ao registrar.",
+				});
+			}
 		} finally {
 			setIsLoading(false);
 		}
