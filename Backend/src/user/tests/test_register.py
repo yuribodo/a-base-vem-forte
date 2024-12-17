@@ -52,3 +52,10 @@ class UserRegisterTests(TestCase):
         response = self.client.post(self.url, incomplete_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("email", response.data)
+
+    def test_register_user_invalid_document_type(self):
+        """Tests whether the API returns an error when trying to register a user with an invalid document type"""
+        self.valid_user_data["document_type"] = "INVALID"
+        response = self.client.post(self.url, self.valid_user_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("document_type", response.data)
