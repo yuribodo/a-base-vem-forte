@@ -1,17 +1,15 @@
 from django.test import TestCase
-from rest_framework.test import APIClient
-from rest_framework import status
-from django.urls import reverse
 from user.serializers import UserSerializer
-from django.core.exceptions import ValidationError
+from user.models import User
 
 
 class UserSerializerTests(TestCase):
     def setUp(self):
         self.valid_user_data = {
             "first_name": "Lisa",
-            "last_name": "Doe",
-            "email": "lisa.doe@example.com",
+            "last_name": "Weller",
+            "username": "lisa_weller",
+            "email": "lisa.weller@example.com",
             "document_type": "CPF",
             "document": "12345678909",
             "enterprise_segment": "Retail",
@@ -26,3 +24,10 @@ class UserSerializerTests(TestCase):
         user = serializer.save()
         self.assertEqual(user.email, self.valid_user_data["email"])
         self.assertTrue(user.check_password(self.valid_user_data["password"]))
+
+    def test_user_serializer_duplicate_document(self):
+        """Tests whether the serializer prevents document duplication"""
+        User.objects.create_user(**self.valid_user_data)
+        serializer = UserSerializer(data=self.valid_user_data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("document", serializer.errors)
