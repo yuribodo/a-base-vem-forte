@@ -31,3 +31,11 @@ class UserSerializerTests(TestCase):
         serializer = UserSerializer(data=self.valid_user_data)
         self.assertFalse(serializer.is_valid())
         self.assertIn("document", serializer.errors)
+
+    def test_user_serializer_missing_field(self):
+        """Tests whether the serializer returns an error when required fields are missing"""
+        invalid_data = self.valid_user_data.copy()
+        del invalid_data["email"]
+        serializer = UserSerializer(data=invalid_data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("email", serializer.errors)
