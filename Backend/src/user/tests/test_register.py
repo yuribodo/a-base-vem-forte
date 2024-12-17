@@ -59,3 +59,9 @@ class UserRegisterTests(TestCase):
         response = self.client.post(self.url, self.valid_user_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("document_type", response.data)
+
+    def test_register_user_password_not_returned(self):
+        """Test that the password field is not removed in the response when registering a user"""
+        response = self.client.post(self.url, self.valid_user_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertNotIn("password", response.data)
