@@ -14,8 +14,8 @@ class UserRegisterTests(TestCase):
 
         self.valid_user_data = {
             "first_name": "Lisa",
-            "last_name": "Doe",
-            "email": "lisa.doe@example.com",
+            "last_name": "Weller",
+            "email": "lisa.weller@example.com",
             "document_type": "CPF",
             "document": "12345678909",
             "enterprise_segment": "Retail",
