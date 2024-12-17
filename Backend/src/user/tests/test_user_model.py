@@ -1,9 +1,5 @@
 from django.test import TestCase
-from rest_framework.test import APIClient
-from rest_framework import status
-from django.urls import reverse
 from user.models import User
-from user.serializers import UserSerializer
 from django.db import IntegrityError
 
 
