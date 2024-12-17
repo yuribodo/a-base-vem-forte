@@ -30,3 +30,10 @@ class UserRegisterTests(TestCase):
         self.assertTrue(
             User.objects.filter(email=self.valid_user_data["email"]).exists()
         )
+
+    def test_register_user_duplicate_email(self):
+        """Tests whether the API returns an error when trying to register a user with a duplicate email address"""
+        self.valid_user_data["email"] = User.objects.first().email
+        response = self.client.post(self.url, self.valid_user_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("email", response.data)
