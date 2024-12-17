@@ -4,7 +4,7 @@ from rest_framework import status
 from django.urls import reverse
 from user.models import User
 from user.serializers import UserSerializer
-from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 
 
 class UserModelTests(TestCase):
@@ -16,3 +16,15 @@ class UserModelTests(TestCase):
         self.assertEqual(user.email, "janedoe@example.com")
         self.assertEqual(user.document, "98765432100")
         self.assertEqual(user.document_type, "CPF")
+
+    def test_user_document_unique_constraint(self):
+        """Tests whether the User model prevents duplication of the document field"""
+        user = User.objects.get(pk=1)
+        with self.assertRaises(IntegrityError):
+            User.objects.create_user(
+                username="newuser",
+                email="new.email@example.com",
+                document=user.document,
+                document_type="CPF",
+                enterprise_segment="Retail",
+            )
