@@ -13,9 +13,9 @@ class UserRegisterTests(TestCase):
         self.url = reverse("register")
 
         self.valid_user_data = {
-            "first_name": "John",
+            "first_name": "Lisa",
             "last_name": "Doe",
-            "email": "john.doe@example.com",
+            "email": "lisa.doe@example.com",
             "document_type": "CPF",
             "document": "12345678909",
             "enterprise_segment": "Retail",
