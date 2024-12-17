@@ -44,3 +44,11 @@ class UserRegisterTests(TestCase):
         response = self.client.post(self.url, self.valid_user_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("document", response.data)
+
+    def test_register_user_missing_fields(self):
+        """Tests whether the API returns an error when trying to register a user with missing fields"""
+        incomplete_data = self.valid_user_data.copy()
+        del incomplete_data["email"]
+        response = self.client.post(self.url, incomplete_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("email", response.data)
