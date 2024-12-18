@@ -35,3 +35,16 @@ class LoginSerializerTestCase(TestCase):
         self.assertFalse(serializer.is_valid())
         self.assertIn("email", serializer.errors)
         self.assertIn("password", serializer.errors)
+
+    def test_serializer_read_only_fields(self):
+        """Tests whether read-only fields are being applied"""
+        data = {
+            "id": self.user.id,
+            "email": self.user.email,
+            "password": "12345678",
+        }
+        serializer = LoginUserSerializer(instance=self.user)
+        serialized_data = serializer.data
+        self.assertIn("id", serialized_data)
+        self.assertIn("email", serialized_data)
+        self.assertNotIn("password", serialized_data)
