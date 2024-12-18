@@ -2,7 +2,7 @@ import RelatorioPage from "@/UIPages/Relatorio";
 
 const Relatorio = () => {
 	return (
-		<div className="p-9">
+		<div className="py-9 flex flex-wrap">
 			<RelatorioPage />
 		</div>
 	);
