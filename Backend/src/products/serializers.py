@@ -54,4 +54,4 @@ class ProductSerializer(serializers.ModelSerializer):
             instance.recycle = recycle
             instance.discard = discard
 
-            return super().update(instance, validated_data)
+            return Products.objects.update(instance, validated_data)
