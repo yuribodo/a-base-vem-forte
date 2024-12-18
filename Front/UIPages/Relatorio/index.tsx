@@ -17,17 +17,17 @@ const ReportPage = () => {
 	};
 
 	return (
-		<div className="flex flex-col gap-4 px-4 max-w-screen sm:px-6 md:px-8">
+		<div className="flex flex-col gap-4 px-4 w-full sm:px-6 md:px-8">
 			<div className="flex flex-col w-full">
 				<div className="flex flex-col gap-2">
 					<h2 className="text-2xl font-bold">Relatório</h2>
-					<p className="text-sm sm:text-xs text-gray-700">
+					<p className="text-sm sm:text-xs text-gray-700 w-[70%] md:w-full break-words overflow-wrap">
 						Ficou fácil para você ver o relatório dos produtos, clique em um dos
 						botões abaixo.
 					</p>
 				</div>
 			</div>
-			<div className="flex flex-row gap-2">
+			<div className="flex flex-row gap-2 flex-wrap">
 				<Button
 					className={`px-4 py-2 rounded ${
 						activeTab === "expired"
