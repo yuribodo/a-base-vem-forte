@@ -7,16 +7,17 @@ import { daysLeft } from "@/utils/daysLeft";
 import {
 	calculateDonatedProductsValue,
 	calculateTotalValue,
+	calculateTrashProductsValue,
 	countDonatedProducts,
 	filterProductsByTab,
 } from "@/utils/filters";
 
-interface Product {
+export interface Product {
 	id: number;
 	name: string;
 	description: string;
 	category: string;
-	price: string;
+	price: number;
 	expiration_date: string;
 	quantity: number;
 	code_product: string;
@@ -48,9 +49,10 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 	}, []);
 
 	const filteredProducts = filterProductsByTab(products, tab);
-	const totalValue = calculateTotalValue(filteredProducts);
+	const totalValue = calculateTotalValue(products);
 	const donatedProductsCount = countDonatedProducts(filteredProducts);
-	const valueDonatedProducts = calculateDonatedProductsValue(filteredProducts);
+	const valueDonatedProducts = calculateDonatedProductsValue(products);
+	const valueTrashProducts = calculateTrashProductsValue(products);
 
 	if (loading) {
 		return <p>Carregando produtos...</p>;
@@ -61,10 +63,10 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 	}
 
 	return (
-		<div className="max-h-[600px] overflow-y-auto overflow-x-auto bg-white shadow-lg border-t-[1px] rounded-lg">
+		<div className="max-h-[600px] max-w-[80%] md:w-full overflow-y-auto overflow-x-auto bg-white shadow-lg border-t-[1px] rounded-lg">
 			<div className="flex flex-wrap gap-4 text-sm font-medium text-gray-700 p-4">
 				<p>Total de produtos: {filteredProducts.length}</p>
-				<p>Preço total perdido: {formattedPrice(totalValue)}</p>
+				<p>Preço total perdido: {formattedPrice(valueTrashProducts)}</p>
 				{tab === "aboutToExpire" && (
 					<>
 						<p>
@@ -108,7 +110,7 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 					</tr>
 				</thead>
 				<tbody>
-					{products.map((product, index) => (
+					{filteredProducts.map((product, index) => (
 						<TableRow
 							key={index}
 							productName={product.name}
@@ -120,6 +122,7 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 							productCode={product.code_product}
 							productValidity={formattedDate(product.expiration_date)}
 							tempoRestante={daysLeft(product)}
+							tab={tab}
 						/>
 					))}
 				</tbody>
