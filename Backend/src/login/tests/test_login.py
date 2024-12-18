@@ -31,3 +31,14 @@ class LoginTestCase(TestCase):
         self.assertIn("email", response.data)
         self.assertIn("token", response.data)
         self.assertEqual(response.data["email"], self.user.email)
+
+    def test_login_invalid_credentials(self):
+        """Test login with invalid credentials"""
+        data = {
+            "email": self.user.email,
+            "password": "wrong12345",
+        }
+        response = self.client.post(self.login_url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertIn("detail", response.data)
+        self.assertEqual(response.data["detail"], "Credenciais inválidas.")
