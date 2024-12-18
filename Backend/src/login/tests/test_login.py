@@ -9,7 +9,7 @@ from django.urls import reverse
 User = get_user_model()
 
 
-class LoginViewTestCase(TestCase):
+class LoginTestCase(TestCase):
 
     def setUp(self):
         self.client = APIClient()
