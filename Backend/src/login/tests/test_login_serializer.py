@@ -24,3 +24,14 @@ class LoginSerializerTestCase(TestCase):
         self.assertIn("id", serialized_data)
         self.assertIn("email", serialized_data)
         self.assertNotIn("password", serialized_data)
+
+    def test_serializer_invalid_data(self):
+        """Tests serialization with invalid data"""
+        data = {
+            "email": "",
+            "password": "",
+        }
+        serializer = LoginUserSerializer(data=data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("email", serializer.errors)
+        self.assertIn("password", serializer.errors)
