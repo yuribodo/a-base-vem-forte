@@ -2,12 +2,13 @@ interface TableProductsProps {
 	productName: string;
 	productDescription: string;
 	productCategory: string;
-	productPrice: string;
+	productPrice: number;
 	productDestiny: string;
 	productQuantity: number;
 	productCode: string;
 	productValidity: string;
 	tempoRestante: number;
+	tab : string;
 }
 
 const TableRow: React.FC<TableProductsProps> = ({
@@ -20,6 +21,7 @@ const TableRow: React.FC<TableProductsProps> = ({
 	productCode,
 	productValidity,
 	tempoRestante,
+	tab
 }) => {
 	return (
 		<tr className="hover:bg-gray-50 text-xs sm:text-sm">
@@ -47,7 +49,7 @@ const TableRow: React.FC<TableProductsProps> = ({
 			<td className="hidden lg:table-cell px-2 sm:px-4 py-2 border-b border-gray-200 text-gray-700">
 				{productValidity}
 			</td>
-			{tempoRestante > 0 && (
+			{tab === "aboutToExpire" && (
 				<td className="px-2 sm:px-4 py-2 border-b border-gray-200 text-gray-700">
 					{tempoRestante} Dias
 				</td>
