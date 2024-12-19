@@ -32,7 +32,7 @@ def partial_update(self, request, *args, **kwargs):
     action = request.data.get("action")
 
     if action == "recycle" and not product.recycle:
-        if product.quatity > 0:
+        if product.quantity > 0:
             product.recycle = True
             product.quantity -= 1
             product.total_recycled += 1
@@ -42,7 +42,7 @@ def partial_update(self, request, *args, **kwargs):
                 status=status.HTTP_400_BAD_REQUEST,
             )
     elif action == "discard" and not product.discard:
-        if product.quatity > 0:
+        if product.quantity > 0:
             product.discard = True
             product.quantity -= 1
             product.total_discarded += 1
