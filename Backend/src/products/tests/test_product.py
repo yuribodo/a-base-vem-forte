@@ -41,3 +41,9 @@ class ProductTestCase(TestCase):
         response = self.client.get(self.list_create_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertGreaterEqual(len(response.json()), 1)
+
+    def test_retrieve_products(self):
+        """Test retrieving a specific product by ID"""
+        response = self.client.get(self.detail_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json()["name"], self.product.name)
