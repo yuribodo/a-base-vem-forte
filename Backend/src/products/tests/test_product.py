@@ -35,3 +35,9 @@ class ProductTestCase(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Products.objects.count(), 3)
+
+    def test_list_products(self):
+        """Test listing all products"""
+        response = self.client.get(self.list_create_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertGreaterEqual(len(response.json()), 1)
