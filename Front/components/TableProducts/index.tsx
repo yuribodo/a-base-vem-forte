@@ -63,7 +63,7 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 	}
 
 	return (
-		<div className="max-h-[600px] max-w-[80%] md:w-full overflow-y-auto overflow-x-auto bg-white shadow-lg border-t-[1px] rounded-lg">
+		<div className="max-h-[600px] xl:max-w-[90%] md:w-full overflow-y-auto overflow-x-auto bg-white shadow-lg border-t-[1px] rounded-lg">
 			<div className="flex flex-wrap gap-4 text-sm font-medium text-gray-700 p-4">
 				<p>Total de produtos: {filteredProducts.length}</p>
 				<p>Preço total perdido: {formattedPrice(valueTrashProducts)}</p>

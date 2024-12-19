@@ -40,7 +40,7 @@ export default function RootLayout({
 				<Header />
 				<div className="flex flex-grow w-full">
 					<SideBar className="hidden lg:block" />
-					<main className="w-full">{children}</main>
+					<main className="w-full lg:w-[80%]">{children}</main>
 				</div>
 			</AuthProvider>
 		</body>
