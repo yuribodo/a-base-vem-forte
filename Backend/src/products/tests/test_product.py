@@ -46,4 +46,4 @@ class ProductTestCase(TestCase):
         """Test retrieving a specific product by ID"""
         response = self.client.get(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.json()["name"], self.product.name)
+        self.assertEqual(response.json()["id"], self.product.id)
