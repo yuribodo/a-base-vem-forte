@@ -7,6 +7,7 @@ import { handleDelete, handleDiscard, handleRecycle } from "@/utils/productApiSe
 import axios from "axios";
 import { PortugueseCategories, portugueseCategories } from "@/utils/portugueseProductCategories";
 import { useRouter } from 'next/navigation';
+import { PortugueseDestination, portugueseDestination } from "@/utils/portugueseProductDestination";
 
 export default function ProductModal() {
   const { isOpenModal, selectedProductId, setIsOpenModal, setUpdateProductsUI } = useModalStore();
@@ -26,6 +27,7 @@ export default function ProductModal() {
           setProduct({
             ...response.data,
             category: portugueseCategories[response.data.category as keyof PortugueseCategories],
+            destination: portugueseDestination[response.data.destination as keyof PortugueseDestination],
           });
         }
         catch (error) {
@@ -44,6 +46,7 @@ export default function ProductModal() {
       setProduct({
        ...product,
         category: portugueseCategories[product.category as keyof PortugueseCategories],
+        destination: portugueseDestination[product.destination as keyof PortugueseDestination],
       });
     
   }, [product]);

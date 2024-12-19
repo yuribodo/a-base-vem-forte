@@ -13,6 +13,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import useModalStore from '@/store/OpenProductModal';
 import { getKeyByValue, PortugueseCategories, portugueseCategories } from '@/utils/portugueseProductCategories';
+import { getDestinationKeyByValue, PortugueseDestination, portugueseDestination } from '@/utils/portugueseProductDestination';
 
 
 
@@ -97,6 +98,7 @@ export default function Page() {
                 setProduct({
                     ...response.data,
                     category: portugueseCategories[response.data.category as keyof PortugueseCategories],
+                    destination: portugueseDestination[response.data.destination as keyof PortugueseDestination],
                 });
             }
             catch (error) {
@@ -172,7 +174,7 @@ export default function Page() {
 			category: dados.category,  
 			code_product: dados.productCode,
 			is_perishable: dados.isPerishableProduct === "sim" ? true : false,
-			destination: "SALE"
+			destination: getDestinationKeyByValue(product.destination) || "SALE"
 		};
 		
 		try {
