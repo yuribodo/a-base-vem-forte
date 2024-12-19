@@ -29,19 +29,6 @@ export const handleDiscard = async (selectedProductId: number | null) => {
     }
 }
 
-export const handleEdit = async (selectedProductId: number | null) => {
-    if(!selectedProductId) return;
-    try {
-        const response = await axios.patch(`${BASE_URL}/api/products/${selectedProductId}/`, {
-            
-        });
-        console.log("Product edited:", response.data);
-        return 'success';
-    } 
-    catch (error) {
-        console.error("Error updating product:", error);
-    }
-}
 export const handleDelete = async (selectedProductId: number | null) => {
     if(!selectedProductId) return;
     try {
