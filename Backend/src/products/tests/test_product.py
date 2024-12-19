@@ -47,3 +47,15 @@ class ProductTestCase(TestCase):
         response = self.client.get(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json()["id"], self.product.id)
+
+    def test_update_product(self):
+        """Test updating an existing product"""
+
+        updated_data = {"name": "Updated Product", "quantity": 15}
+        response = self.client.patch(
+            self.detail_url, updated_data, content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.product.refresh_from_db()
+        self.assertEqual(self.product.name, updated_data["name"])
+        self.assertEqual(self.product.quantity, updated_data["quantity"])
