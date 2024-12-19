@@ -21,6 +21,8 @@ interface Product {
   destination: string;
   is_perishable: boolean;
   date_of_manufacture: string;
+  recycle: boolean;
+  discard: boolean;
 }
 
 const DashboardPage = () => {
@@ -52,17 +54,51 @@ const DashboardPage = () => {
     const diffTime = expDate.getTime() - today.getTime();
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   };
-  
 
-  const chartData = {
-    labels: ["Válidos", "Quase vencendo", "Vencidos"],
-    datasets: [
-      {
-        data: [70, 20, 10],
-        backgroundColor: ["#4caf50", "#ffeb3b", "#f44336"],
-        hoverBackgroundColor: ["#45a049", "#fdd835", "#e53935"],
-      },
-    ],
+  const calculateExpirationStatus = (products: Product[]) => {
+    const today = new Date();
+    let valid = 0;
+    let nearExpiration = 0;
+    let expired = 0;
+  
+    products.forEach(product => {
+      const daysLeft = calculateDaysLeft(product.expiration_date);
+      
+      if (daysLeft <= 0) {
+        expired++;
+      } else if (daysLeft <= 30) {  
+        nearExpiration++;
+      } else {
+        valid++;
+      }
+    });
+  
+  
+    return {
+      valid,
+      nearExpiration,
+      expired
+    };
+  };
+  
+  const getChartData = () => {
+    const status = calculateExpirationStatus(products);
+    const total = status.valid + status.nearExpiration + status.expired;
+    
+    return {
+      labels: ["Válidos", "Quase vencendo", "Vencidos"],
+      datasets: [
+        {
+          data: [
+            total > 0 ? (status.valid / total) * 10 : 0,
+            total > 0 ? (status.nearExpiration / total) * 10 : 0,
+            total > 0 ? (status.expired / total) * 10 : 0
+          ],
+          backgroundColor: ["#4caf50", "#ffeb3b", "#f44336"],
+          hoverBackgroundColor: ["#45a049", "#fdd835", "#e53935"],
+        },
+      ],
+    };
   };
 
   if (isLoading) {
@@ -80,6 +116,8 @@ const DashboardPage = () => {
       </div>
     );
   }
+
+  const chartData = getChartData();
 
   return (
     <main className="w-full p-8 md:p-8 max-w-full overflow-x-hidden">
@@ -117,7 +155,6 @@ const DashboardPage = () => {
               <ProductRow key={product.id} product={{
                 ...product,
                 daysLeft: calculateDaysLeft(product.expiration_date),
-                
                 image: "https://via.placeholder.com/100"
               }} />
             ))
@@ -137,7 +174,6 @@ const DashboardPage = () => {
               <ProductRow key={product.id} product={{
                 ...product,
                 daysLeft: calculateDaysLeft(product.expiration_date),
-                
                 image: "https://via.placeholder.com/100"
               }} />
             ))
@@ -154,7 +190,7 @@ const DashboardPage = () => {
 
       <div className="p-4 bg-white shadow-lg rounded-lg mt-4 w-full md:w-3/4 lg:w-2/3 mx-auto">
         <h2 className="text-lg font-bold mb-2">Produtos por Categoria</h2>
-        <ProdutosPorCategoria />
+        <ProdutosPorCategoria products={products} />
       </div>
     </main>
   );
