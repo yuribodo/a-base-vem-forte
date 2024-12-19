@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { CircleX, Recycle, Trash, Pencil, ArchiveX } from "lucide-react";
 import useModalStore from "../../store/OpenProductModal";
 import productImage from "@/assets/product-image.jpg";
-import { handleDelete, handleDiscard, handleEdit, handleRecycle } from "@/utils/productApiService";
+import { handleDelete, handleDiscard, handleRecycle } from "@/utils/productApiService";
 import axios from "axios";
 import { PortugueseCategories, portugueseCategories } from "@/utils/portugueseProductCategories";
 import { useRouter } from 'next/navigation';
