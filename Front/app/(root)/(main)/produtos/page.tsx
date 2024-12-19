@@ -8,6 +8,7 @@ import Link from "next/link";
 import ProductRow from "@/components/ProductRow";
 import ProductModal from "@/components/ProductModal";
 import useModalStore from "@/store/OpenProductModal";
+import { PortugueseCategories, portugueseCategories } from "@/utils/portugueseProductCategories";
 
 interface Product {
   id: number;
@@ -28,16 +29,22 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { isOpenModal } = useModalStore();
+  const { isOpenModal, updateProductsUI, setUpdateProductsUI } = useModalStore();
+
+  const BASE_URL = "http://127.0.0.1:8000"; 
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get<Product[]>('http://127.0.0.1:8000/api/products/'); 
+        const response = await axios.get<Product[]>(`${BASE_URL}/api/products/`); 
+        response.data.map((product) => {
+          product.category = portugueseCategories[product.category as keyof PortugueseCategories];
+        });
         setProducts(response.data);
         setError(null);
-      } catch (err) {
+      } 
+      catch (err) {
         setError('Erro ao carregar produtos. Por favor, tente novamente mais tarde.');
         console.error('Error fetching products:', err);
       } finally {
@@ -46,7 +53,8 @@ const Page = () => {
     };
 
     fetchProducts();
-  }, []);
+    setUpdateProductsUI(false);
+  }, [updateProductsUI]);
 
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -61,7 +69,7 @@ const Page = () => {
   };
 
   return (
-    <main className="w-full p-8">
+    <main className="w-full py-8 px-4 lg:p-8 p-8">
       {isOpenModal && <ProductModal />}
       <div className="flex flex-col gap-6">
         <div className="flex justify-between items-center">

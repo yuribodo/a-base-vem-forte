@@ -29,7 +29,7 @@ const Header = () => {
   return (
     <header className="relative w-full">
 
-      <div className="w-full h-20 flex items-center justify-between bg-principalColor text-white px-6 shadow-lg">
+      <div className="w-full h-20 flex items-center justify-between bg-principalColor text-white px-3 sm:px-6 shadow-lg">
         <Link href="/" className="z-20">
           <Image
             src={Logo}
