@@ -44,14 +44,20 @@ class ProductSerializer(serializers.ModelSerializer):
                 "A product cannot be recycled and discarded at the same time."
             )
 
+        if (recycle or discard) and instance.quantity <= 0:
+            raise serializers.ValidationError(
+                "It is not possible to recycle or dispose of a product with zero quantity."
+            )
+
         if recycle or discard:
-            if instance.quantity <= 0:
-                raise serializers.ValidationError(
-                    "It is not possible to recycle or dispose of a product with zero quantity."
-                )
             instance.quantity -= 1
 
-            instance.recycle = recycle
-            instance.discard = discard
+        instance.recycle = recycle
+        instance.discard = discard
 
-            return super().update(instance, validated_data)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+
+        return instance
