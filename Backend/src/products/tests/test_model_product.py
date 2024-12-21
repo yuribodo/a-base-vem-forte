@@ -65,3 +65,9 @@ class ProductsModelTestCase(TestCase):
         self.assertTrue(product.discard)
         self.assertEqual(product.total_recycled, 5)
         self.assertEqual(product.total_discarded, 10)
+
+    def test_load_fixture_data(self):
+        """Test that the fixture data is loaded into the database"""
+        products = Products.objects.all()
+        self.assertTrue(products.exists())
+        self.assertGreaterEqual(products.count(), 1)
