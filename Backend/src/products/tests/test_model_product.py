@@ -26,6 +26,7 @@ class ProductsModelTestCase(TestCase):
         }
 
     def test_create_product(self):
+        """Test creating a valid product with the provided data"""
         product = Products.objects.create(**self.product_data)
         self.assertIsInstance(product, Products)
         self.assertEqual(product.name, "Product names")
