@@ -31,3 +31,10 @@ class ProductsModelTestCase(TestCase):
         self.assertIsInstance(product, Products)
         self.assertEqual(product.name, "Product names")
         self.assertEqual(product.category, "MEATS")
+
+    def test_category_choices_validation(self):
+        """Test that invalid category values raise a validationError"""
+        self.product_data["category"] = "INVALID"
+        with self.assertRaises(ValidationError):
+            product = Products(**self.product_data)
+            product.full_clean()
