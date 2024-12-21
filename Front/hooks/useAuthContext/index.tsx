@@ -34,6 +34,15 @@ const useAuthContext = () => {
 		phoneNumber: string;
 	};
 
+	const setTokenInCookie = (token: string) => {
+		document.cookie = `token=${token}; path=/; secure; HttpOnly; SameSite=Strict`;
+	};
+
+	const deleteTokenFromCookie = () => {
+		document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; HttpOnly; SameSite=Strict";
+	};
+
+
 	const onHandleLogin = async (authLogin: loginTypes) => {
 		try {
 			setIsLoading(true);
@@ -47,6 +56,7 @@ const useAuthContext = () => {
 			const token = responseLogin.data.token;
 			localStorage.setItem("token", token);
 			localStorage.setItem("user", JSON.stringify(responseLogin.data));
+			setTokenInCookie(token);
 		} catch (error) {
 			console.log(error);
 			throw new Error("Login inválido");
@@ -58,6 +68,7 @@ const useAuthContext = () => {
 	const onHandleLogout = () => {
 		localStorage.removeItem("token");
 		localStorage.removeItem("user");
+		deleteTokenFromCookie();
 		setUser(null);
 		window.location.href = "/auth/login";
 	};
