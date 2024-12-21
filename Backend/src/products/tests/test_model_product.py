@@ -47,7 +47,21 @@ class ProductsModelTestCase(TestCase):
             product.full_clean()
 
     def test_destination_choices_validation(self):
-        """Test tha code_product field enforces uniqueness"""
+        """Test that code_product field enforces uniqueness"""
         Products.objects.create(**self.product_data)
         with self.assertRaises(Exception):
             Products.objects.create(**self.product_data)
+
+    def test_recycled_and_discarded_flags(self):
+        """Test the functionality of recycle and discard flags and their counts"""
+        product = Products.objects.create(**self.product_data)
+        product.recycle = True
+        product.discard = True
+        product.total_recycled = 5
+        product.total_discarded = 10
+        product.save()
+
+        self.assertTrue(product.recycle)
+        self.assertTrue(product.discard)
+        self.assertEqual(product.total_recycled, 5)
+        self.assertEqual(product.total_discarded, 10)
