@@ -33,8 +33,15 @@ class ProductsModelTestCase(TestCase):
         self.assertEqual(product.category, "MEATS")
 
     def test_category_choices_validation(self):
-        """Test that invalid category values raise a validationError"""
+        """Test that invalid category values raise a ValidationError"""
         self.product_data["category"] = "INVALID"
+        with self.assertRaises(ValidationError):
+            product = Products(**self.product_data)
+            product.full_clean()
+
+    def test_destination_choices_validation(self):
+        """test tha invalid destination values raise ValidadetionError"""
+        self.product_data["destination"] = "INVALID"
         with self.assertRaises(ValidationError):
             product = Products(**self.product_data)
             product.full_clean()
