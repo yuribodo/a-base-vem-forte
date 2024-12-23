@@ -35,31 +35,26 @@ class ProductSerializer(serializers.ModelSerializer):
                     "A data de validade não pode ser anterior à data de fabricação."
                 )
 
-        return data
-
-    def create(self, validated_data):
-        return Products.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        recycle = validated_data.get("recycle", instance.recycle)
-        discard = validated_data.get("discard", instance.discard)
+        recycle = data.get("recycle", False)
+        discard = data.get("discard", False)
+        quantity = data.get("quantity", self.instance.quantity if self.instance else 0)
 
         if recycle and discard:
             raise serializers.ValidationError(
                 "A product cannot be recycled and discarded at the same time."
             )
 
-        if (recycle or discard) and instance.quantity <= 0:
+        if (recycle or discard) and quantity <= 0:
             raise serializers.ValidationError(
                 "It is not possible to recycle or dispose of a product with zero quantity."
             )
 
-        if recycle or discard:
-            instance.quantity -= 1
+        return data
 
-        instance.recycle = recycle
-        instance.discard = discard
+    def create(self, validated_data):
+        return Products.objects.create(**validated_data)
 
+    def update(self, instance, validated_data):
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
