@@ -54,3 +54,23 @@ class ProductSerializerTestCase(TestCase):
             "A data de validade não pode ser anterior à data de fabricação.",
             str(serializer.errors),
         )
+
+    def test_serializer_update_invalid_recycle_discard(self):
+        """Tests whether the serializer returns an error when trying to update a product
+        to be recycled and discarded at the same time
+        """
+        data = {"recycle": True, "discard": True}
+        serializer = ProductSerializer(instance=self.product, data=data, partial=True)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn(
+            "A product cannot be recycled and discarded at the same time.",
+            str(serializer.errors),
+        )
+
+    def test_serializer_update_valid_data(self):
+        """Tests whether the serializer correctly updates a product with valid data"""
+        data = {"recycle": True}
+        serializer = ProductSerializer(instance=self.product, data=data, partial=True)
+        self.assertTrue(serializer.is_valid())
+        update_product = serializer.save()
+        self.assertTrue(update_product.recycle)
