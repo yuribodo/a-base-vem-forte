@@ -19,13 +19,15 @@ class ProductSerializer(serializers.ModelSerializer):
             "date_of_manufacture",
             "recycle",
             "discard",
+            "total_recycled",
+            "total_discarded",
         ]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "total_recycled", "total_discarded"]
 
-    def create(self, validated_data):
+    def validate(self, data):
 
-        expiration_date = validated_data.get("expiration_date", None)
-        date_of_manufacture = validated_data.get("date_of_manufacture", None)
+        expiration_date = data.get("expiration_date", None)
+        date_of_manufacture = data.get("date_of_manufacture", None)
 
         if expiration_date and date_of_manufacture:
             if expiration_date < date_of_manufacture:
@@ -33,28 +35,26 @@ class ProductSerializer(serializers.ModelSerializer):
                     "A data de validade não pode ser anterior à data de fabricação."
                 )
 
-        return Products.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        recycle = validated_data.get("recycle", instance.recycle)
-        discard = validated_data.get("discard", instance.discard)
+        recycle = data.get("recycle", False)
+        discard = data.get("discard", False)
+        quantity = data.get("quantity", self.instance.quantity if self.instance else 0)
 
         if recycle and discard:
             raise serializers.ValidationError(
                 "A product cannot be recycled and discarded at the same time."
             )
 
-        if (recycle or discard) and instance.quantity <= 0:
+        if (recycle or discard) and quantity <= 0:
             raise serializers.ValidationError(
                 "It is not possible to recycle or dispose of a product with zero quantity."
             )
 
-        if recycle or discard:
-            instance.quantity -= 1
+        return data
 
-        instance.recycle = recycle
-        instance.discard = discard
+    def create(self, validated_data):
+        return Products.objects.create(**validated_data)
 
+    def update(self, instance, validated_data):
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
