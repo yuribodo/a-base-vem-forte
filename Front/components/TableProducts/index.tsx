@@ -13,6 +13,8 @@ import {
 } from "@/utils/filters";
 
 export interface Product {
+	total_recycled: number;
+	total_discarded: number;
 	id: number;
 	name: string;
 	description: string;
@@ -24,7 +26,7 @@ export interface Product {
 	destination: string;
 	is_perishable: boolean;
 	date_of_manufacture: string;
-  }
+}
 
 const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 	const [products, setProducts] = useState<Product[]>([]);
@@ -35,7 +37,7 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 		const fetchProducts = async () => {
 			try {
 				setLoading(true);
-				const response = await axios.get("http://127.0.0.1:8000/api/products/"); 
+				const response = await axios.get("http://127.0.0.1:8000/api/products/");
 				setProducts(response.data);
 			} catch (err) {
 				setError("Erro ao carregar os produtos. Tente novamente.");
@@ -53,6 +55,14 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 	const donatedProductsCount = countDonatedProducts(filteredProducts);
 	const valueDonatedProducts = calculateDonatedProductsValue(products);
 	const valueTrashProducts = calculateTrashProductsValue(products);
+	const totalDiscardedProducts = products.reduce((acc, product) => {
+		acc += product.total_discarded;
+		return acc;
+	}, 0);
+	const totalRecycledProducts = products.reduce((acc, product) => {
+		acc += product.total_recycled;
+		return acc;
+	}, 0);
 
 	if (loading) {
 		return <p>Carregando produtos...</p>;
@@ -67,6 +77,9 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 			<div className="flex flex-wrap gap-4 text-sm font-medium text-gray-700 p-4">
 				<p>Total de produtos: {filteredProducts.length}</p>
 				<p>Preço total perdido: {formattedPrice(valueTrashProducts)}</p>
+				<p>Total Descartado: {totalDiscardedProducts}</p>
+				<p>Total Reciclado: {totalRecycledProducts}</p>
+
 				{tab === "aboutToExpire" && (
 					<>
 						<p>
