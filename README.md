@@ -11,6 +11,7 @@
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
   - [Frontend](#frontend)
   - [Backend](#backend)
+  - [Testes](#testes)
 - [Documentação](#documentação)
 - [Instalação](#instalação)
 - [Executando a Aplicação](#executando-a-aplicação)
@@ -50,6 +51,13 @@ Supermercados e restaurantes enfrentam grandes desafios na gestão de estoques d
 - **Framework**: Django e Django Rest Framework
 - **Banco de Dados**: PostgreSQL
 - **Autenticação**: Baseada em token (ex.: Simple JWT)
+
+### **Testes**
+#### **Abordagem de Testes**
+Foram implementados **testes unitários** e de **integração** em toda a aplicação para garantir a qualidade e a robustez do sistema.
+#### **Tecnologias Utilizadas para Testes**
+- **Django TestCase**: Utilizado para criar testes unitários e de integração no backend, aproveitando as ferramentas integradas ao Django.
+- **Fixtures**: Empregadas para carregar dados de teste de forma consistente e automatizada durante a execução dos testes.
 
 ---
 
