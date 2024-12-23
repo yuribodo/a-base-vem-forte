@@ -32,3 +32,25 @@ class ProductSerializerTestCase(TestCase):
         self.assertTrue(serializer.is_valid())
         product = serializer.save()
         self.assertEqual(product.name, product_data["name"])
+
+    def test_serializer_create_invalid_dates(self):
+        """Tests whether the serializer returns an error when trying
+        to create a product with an expiration date before the manufacturing date
+        """
+        product_invalid_data = {
+            "name": "Product Invalid",
+            "description": "Test invalid date",
+            "category": "MEATS",
+            "price": 10.5,
+            "expiration_date": "2023-12-31",
+            "date_of_manufacture": "2024-01-01",
+            "quantity": 10,
+            "code_product": "TEST123",
+            "destination": "TRASH",
+        }
+        serializer = ProductSerializer(data=product_invalid_data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn(
+            "A data de validade não pode ser anterior à data de fabricação.",
+            str(serializer.errors),
+        )
