@@ -74,3 +74,17 @@ class ProductSerializerTestCase(TestCase):
         self.assertTrue(serializer.is_valid())
         update_product = serializer.save()
         self.assertTrue(update_product.recycle)
+
+    def test_serializer_update_invalid_quantity_recycle(self):
+        """Tests whether the serializer returns an error when trying to update a product
+        to be recycled when the quantity is zero
+        """
+        self.product.quantity = 0
+        self.product.save()
+        data = {"recycle": True}
+        serializer = ProductSerializer(instance=self.product, data=data, partial=True)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn(
+            "It is not possible to recycle or dispose of a product with zero quantity.",
+            str(serializer.errors),
+        )
