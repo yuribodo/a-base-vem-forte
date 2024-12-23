@@ -19,8 +19,10 @@ class ProductSerializer(serializers.ModelSerializer):
             "date_of_manufacture",
             "recycle",
             "discard",
+            "total_recycled",
+            "total_discarded",
         ]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "total_recycled", "total_discarded"]
 
     def create(self, validated_data):
 
