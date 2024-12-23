@@ -52,9 +52,8 @@ const FormLogin = () => {
 			})
 			router.push('/dashboard')
 		} catch (error) {
-			
+			console.log(error)
 		}
-		console.log("Dados enviados:", dados);
 	};
 	
 	const isLoading = false;
