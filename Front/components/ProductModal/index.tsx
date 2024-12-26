@@ -14,6 +14,8 @@ export default function ProductModal() {
   const [product, setProduct] = useState<any>(null);
   const [isProductLoaded, setIsProductLoaded] = useState<boolean>(false);
   const router = useRouter();
+  const [displayQuantityRecycleInput, setDisplayQuantityRecycleInput] = useState<boolean>(false);
+  const [productQuantity, setProductQuantity] = useState<number>(0);
 
   const BASE_URL = "http://127.0.0.1:8000"; 
 
@@ -53,21 +55,36 @@ export default function ProductModal() {
 
   const toggleModal = () => {
     setIsOpenModal(!isOpenModal);
+    window.location.reload();
   };
 
   if (!product) return null;
 
   const handleRecycleClick = async () => {
-    const response = await handleRecycle(selectedProductId);
-    if (response === 'success') {
-      toggleModal();
-    }
+    if (!selectedProductId) return;
+
+    setDisplayQuantityRecycleInput(true);
+    if(productQuantity) {
+      const response = await handleRecycle(selectedProductId, productQuantity);
+      if (response === 'success') {
+        setDisplayQuantityRecycleInput(false);
+        toggleModal();
+        window.location.reload();
+      }
+    };
   };
   const handleDiscardClick = async () => {
-    const response = await handleDiscard(selectedProductId);
-    if (response === 'success') {
-      toggleModal();
+    if (!selectedProductId) return;
+
+    if(productQuantity) {
+      const response = await handleDiscard(selectedProductId, productQuantity);
+      if (response === 'success') {
+        setDisplayQuantityRecycleInput(false);
+        toggleModal();
+        window.location.reload();
+      }
     }
+    setDisplayQuantityRecycleInput(true);
   };
   const handleEditClick = async () => {
     router.push('/produtos/editar-produto');
@@ -96,7 +113,7 @@ export default function ProductModal() {
               <h2 className="text-xl font-bold text-gray-800">{product.name}</h2>
               <p className="">{ product.description ? `(${product.description})` : '' }</p>
             </div>
-            <p className="text-lg text-gray-600">{`R$ ${product.price * product.quantity}`}</p>
+            <p className="text-lg text-gray-600">{`R$ ${(product.price * product.quantity).toFixed(2)}`}</p>
           </div>
           <button
             onClick={toggleModal}
@@ -154,7 +171,18 @@ export default function ProductModal() {
           </div>
         </div>
 
-        <div className="w-full mt-6 sm:mt-10 flex justify-center items-center gap-8">
+        <div className={`w-full mt-6 sm:mt-10 flex ${displayQuantityRecycleInput ? 'justify-end' : 'justify-center'} items-center gap-8 px-5`}>
+          <div className={`${displayQuantityRecycleInput ? 'flex w-full h-[45px] items-center' : 'hidden'}`}>
+              <form>
+                <label className="text-sm text-gray-600 font-[600]">Quantidade a Reciclar:</label>
+                <input 
+                  type="number" 
+                  className="w-full px-4 py-2 text-sm border rounded-md focus:outline-none focus:ring-1 focus:ring-[#3a8b40] focus:border-[#3a8b40] transition-all "
+                  onChange={(e) => setProductQuantity(Number(e.target.value))}
+                  //value={productQuantity}
+                  />
+              </form>
+          </div>
           <div className="flex flex-col items-center">
             <button 
               onClick={() => handleRecycleClick()}

@@ -2,11 +2,12 @@ import axios from "axios";
 
 const BASE_URL = "http://127.0.0.1:8000";
 
-export const handleRecycle = async (selectedProductId: number | null) => {
+export const handleRecycle = async (selectedProductId: number | null, productQuantity: number) => {
     if(!selectedProductId) return;
     try {
         const response = await axios.patch(`${BASE_URL}/api/products/${selectedProductId}/status/`, {
-            destination: 'DONATION'
+            action: 'recycle',
+            quantity: productQuantity,
         });
         console.log("Product recycled:", response.data);
         return 'success';
@@ -15,11 +16,12 @@ export const handleRecycle = async (selectedProductId: number | null) => {
         console.error("Error updating product:", error);
     }
 }
-export const handleDiscard = async (selectedProductId: number | null) => {
+export const handleDiscard = async (selectedProductId: number | null, productQuantity: number) => {
     if(!selectedProductId) return;
     try {
         const response = await axios.patch(`${BASE_URL}/api/products/${selectedProductId}/status/`, {
-            destination: 'TRASH'
+            action: 'discard',
+            quantity: productQuantity,
         });
         console.log("Product discarded:", response.data);
         return 'success';
