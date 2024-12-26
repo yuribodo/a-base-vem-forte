@@ -19,7 +19,7 @@ from django.core.management.utils import get_random_secret_key
 
 dotenv.load_dotenv()
 
-ENVIRONMENT = os.getenv("ENVIRONMENT", default="production")
+ENVIRONMENT = "production"
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -131,31 +131,27 @@ WSGI_APPLICATION = "_core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if ENVIRONMENT == "development":
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-else:
-    DATABASE_URL = os.getenv("DATABASE_URL")
-    if not DATABASE_URL:
-        raise ValueError(
-            "The DATABASE_URL variable is not defined for the production environment."
-        )
 
-    DATABASES = {
-        "default": dj_database_url.config(
-            default=DATABASE_URL, conn_max_age=500, ssl_require=True
-        )
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
+}
 
-DEBUG = ENVIRONMENT == "development"
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    db_from_env = dj_database_url.config(
+        default=DATABASE_URL, conn_max_age=500, ssl_require=True
+    )
+    DATABASES["default"].update(db_from_env)
+    DEBUG = False
+
 
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-    STATICFILES_STORE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
