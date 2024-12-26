@@ -28,6 +28,8 @@ export interface Product {
 	date_of_manufacture: string;
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
@@ -37,7 +39,7 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 		const fetchProducts = async () => {
 			try {
 				setLoading(true);
-				const response = await axios.get("http://127.0.0.1:8000/api/products/");
+				const response = await axios.get(`${apiUrl}/api/products/`);
 				setProducts(response.data);
 			} catch (err) {
 				setError("Erro ao carregar os produtos. Tente novamente.");

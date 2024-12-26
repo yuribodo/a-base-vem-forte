@@ -16,7 +16,7 @@ import { getKeyByValue, PortugueseCategories, portugueseCategories } from '@/uti
 import { getDestinationKeyByValue, PortugueseDestination, portugueseDestination } from '@/utils/portugueseProductDestination';
 
 
-
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
 
 const loginSchema = z.object({
@@ -83,7 +83,7 @@ export default function Page() {
     const [isProductLoaded, setIsProductLoaded] = useState<boolean>(false);
     const [product, setProduct] = useState<any>(null);
 
-	const BASE_URL = "http://127.0.0.1:8000"; 
+	
 
     function formatDateToDDMMYYYY(dateString: string): string {      
         const [year, month, day] = dateString.split("-");
@@ -94,7 +94,7 @@ export default function Page() {
         const fetchProducts = async() => {
             try {
                 setIsProductLoaded(true);
-                const response = await axios.get(`${BASE_URL}/api/products/${selectedProductId}/`);
+                const response = await axios.get(`${apiUrl}/api/products/${selectedProductId}/`);
                 setProduct({
                     ...response.data,
                     category: portugueseCategories[response.data.category as keyof PortugueseCategories],
@@ -178,7 +178,7 @@ export default function Page() {
 		};
 		
 		try {
-			const response = await axios.put(`${BASE_URL}/api/products/${selectedProductId}/`, sanitizedData);
+			const response = await axios.put(`${apiUrl}/api/products/${selectedProductId}/`, sanitizedData);
 			console.log("Product Editado:", response.data);
 			toast.success('Produto editado com sucesso!');
             setError(null);

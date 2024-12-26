@@ -24,6 +24,9 @@ interface Product {
   date_of_manufacture: string;
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+
 const Page = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,13 +34,12 @@ const Page = () => {
   const [error, setError] = useState<string | null>(null);
   const { isOpenModal, updateProductsUI, setUpdateProductsUI } = useModalStore();
 
-  const BASE_URL = "http://127.0.0.1:8000"; 
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get<Product[]>(`${BASE_URL}/api/products/`); 
+        const response = await axios.get<Product[]>(`${apiUrl}/api/products/`); 
         response.data.map((product) => {
           product.category = portugueseCategories[product.category as keyof PortugueseCategories];
         });
@@ -60,7 +62,7 @@ const Page = () => {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Calculate days left until expiration for each product
+  
   const calculateDaysLeft = (expirationDate: string) => {
     const today = new Date();
     const expDate = new Date(expirationDate);
@@ -109,7 +111,7 @@ const Page = () => {
                 product={{
                   ...product,
                   daysLeft: calculateDaysLeft(product.expiration_date),
-                  // Using a placeholder image since the API data doesn't include images
+                  
                   image: "https://via.placeholder.com/100"
                 }}
               />
