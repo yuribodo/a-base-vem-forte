@@ -60,20 +60,20 @@ class ProductTestCase(TestCase):
         self.assertEqual(self.product.name, updated_data["name"])
         self.assertEqual(self.product.quantity, updated_data["quantity"])
 
-    def test_recycle_product(self):
-        """Test Marking a product as recycled"""
+    def test_recycle_product_with_quantity(self):
+        """Test marking a specific quantity of a product as recycled"""
         initial_quantity = self.product.quantity
         initial_total_recycled = self.product.total_recycled
 
-        action = {"action": "recycle"}
+        action = {"action": "recycle", "quantity": 2}
         response = self.client.patch(
             self.update_url, action, content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.product.refresh_from_db()
         self.assertTrue(self.product.recycle)
-        self.assertEqual(self.product.quantity, initial_quantity - 1)
-        self.assertEqual(self.product.total_recycled, initial_total_recycled + 1)
+        self.assertEqual(self.product.quantity, initial_quantity - 2)
+        self.assertEqual(self.product.total_recycled, initial_total_recycled + 2)
 
     def test_discard_product(self):
         """Test marking a product as discarded"""
