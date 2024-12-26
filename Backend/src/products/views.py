@@ -38,6 +38,12 @@ class ProductRecycleOrDiscardUpdateView(UpdateAPIView):
                     {"error": "Quantity must be greater than zero"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+            if action in ("recycle", "discard"):
+                if product.quantity < quantity:
+                    return Response(
+                        {"error": "Not enough products available for this action"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
         except ValueError:
             return Response(
                 {"error": "Invalid quantity format. It must be an integer"},
