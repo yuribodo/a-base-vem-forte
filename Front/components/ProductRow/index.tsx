@@ -1,7 +1,6 @@
 import React from "react";
 import { Clock, Package, Tag, AlertCircle, ChevronRight } from "lucide-react";
 import useModalStore from "@/store/OpenProductModal";
-import { PortugueseCategories, portugueseCategories } from "@/utils/portugueseProductCategories";
 
 interface Product {
   id: number;
@@ -69,7 +68,7 @@ const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
           <h2 className="font-medium text-gray-900">{product.name}</h2>
           <div className="flex items-center gap-2 mt-1">
             <Tag className="w-3 h-3 text-gray-400" />
-            <span className="text-xs text-gray-500">{portugueseCategories[product.category as keyof PortugueseCategories]}</span>
+            <span className="text-xs text-gray-500">{product.category}</span>
             {product.is_perishable && (
               <div className="flex items-center gap-1 text-amber-600">
                 <AlertCircle className="w-3 h-3" />
