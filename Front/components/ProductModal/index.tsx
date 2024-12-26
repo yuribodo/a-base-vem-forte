@@ -9,6 +9,8 @@ import { PortugueseCategories, portugueseCategories } from "@/utils/portuguesePr
 import { useRouter } from 'next/navigation';
 import { PortugueseDestination, portugueseDestination } from "@/utils/portugueseProductDestination";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export default function ProductModal() {
   const { isOpenModal, selectedProductId, setIsOpenModal, setUpdateProductsUI } = useModalStore();
   const [product, setProduct] = useState<any>(null);
@@ -17,7 +19,7 @@ export default function ProductModal() {
   const [displayQuantityRecycleInput, setDisplayQuantityRecycleInput] = useState<boolean>(false);
   const [productQuantity, setProductQuantity] = useState<number>(0);
 
-  const BASE_URL = "http://127.0.0.1:8000"; 
+  
 
   useEffect(() => { 
     const fetchProduct = async () => {
@@ -25,7 +27,7 @@ export default function ProductModal() {
 
       if (selectedProductId) {
         try {
-          const response = await axios.get(`${BASE_URL}/api/products/${selectedProductId}/`);
+          const response = await axios.get(`${apiUrl}/api/products/${selectedProductId}/`);
           setProduct({
             ...response.data,
             category: portugueseCategories[response.data.category as keyof PortugueseCategories],

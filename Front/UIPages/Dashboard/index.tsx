@@ -9,6 +9,8 @@ import ProductRow from "@/components/ProductRow";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 interface Product {
   id: number;
   name: string;
@@ -34,7 +36,7 @@ const DashboardPage = () => {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get<Product[]>('http://127.0.0.1:8000/api/products/');
+        const response = await axios.get<Product[]>(`${apiUrl}/api/products/`);
         setProducts(response.data);
         setError(null);
       } catch (err) {
