@@ -90,16 +90,19 @@ class ProductTestCase(TestCase):
         self.assertEqual(self.product.quantity, initial_quantity - 3)
         self.assertEqual(self.product.total_discarded, initial_total_discarded + 3)
 
-    def test_invalid_recycle_discard(self):
-        """test attempting to recycle or discard a product with zero quantity"""
-        self.product.quantity = 0
-        self.product.save()
+    def test_invalid_recycle_discard_with_insufficient_quantity(self):
+        """Test attempting to recycle or discard a quantity greater than available"""
+        invalid_quantity = self.product.quantity + 1
 
         response = self.client.patch(
-            self.update_url, {"action": "recycle"}, content_type="application/json"
+            self.update_url,
+            {"action": "recycle", "quantity": invalid_quantity},
+            content_type="application/json",
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         response = self.client.patch(
-            self.update_url, {"action": "discard"}, content_type="application/json"
+            self.update_url,
+            {"action": "discard", "quantity": invalid_quantity},
+            content_type="application/json",
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
