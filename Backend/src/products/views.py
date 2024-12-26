@@ -29,30 +29,44 @@ class ProductRecycleOrDiscardUpdateView(UpdateAPIView):
     def partial_update(self, request, *args, **kwargs):
         product = self.get_object()
         action = request.data.get("action")
+        quantity = request.data.get("quantity", 0)
 
-        if action == "recycle" and not product.recycle:
-            if product.quantity > 0:
-                product.recycle = True
-                product.quantity -= 1
-                product.total_recycled += 1
-            else:
+        try:
+            quantity = int(quantity)
+            if quantity <= 0:
                 return Response(
-                    {"error": "There are no more products available for recycling."},
+                    {"error": "Quantity must be greater than zero"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-        elif action == "discard" and not product.discard:
-            if product.quantity > 0:
-                product.discard = True
-                product.quantity -= 1
-                product.total_discarded += 1
+        except ValueError:
+            return Response(
+                {"error": "Invalid quantity format. It must be an integer"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if action == "recycle":
+            if product.quantity >= 0:
+                product.recycle = True
+                product.quantity -= quantity
+                product.total_recycled += quantity
             else:
                 return Response(
-                    {"error": "There are no more products available for disposal."},
+                    {"error": "Not enough products available for recycling"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        elif action == "discard":
+            if product.quantity >= 0:
+                product.discard = True
+                product.quantity -= quantity
+                product.total_discarded += quantity
+            else:
+                return Response(
+                    {"error": "Not enough products available for disposal"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
         else:
             return Response(
-                {"error": "Invalid action or status already updated."},
+                {"error": "Invalid action. Use 'recycle' or 'discard'."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
