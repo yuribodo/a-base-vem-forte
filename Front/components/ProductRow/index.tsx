@@ -1,6 +1,7 @@
 import React from "react";
 import { Clock, Package, Tag, AlertCircle, ChevronRight } from "lucide-react";
 import useModalStore from "@/store/OpenProductModal";
+import { PortugueseCategories, portugueseCategories } from "@/utils/portugueseProductCategories";
 
 interface Product {
   id: number;
@@ -68,7 +69,7 @@ const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
           <h2 className="font-medium text-gray-900">{product.name}</h2>
           <div className="flex items-center gap-2 mt-1">
             <Tag className="w-3 h-3 text-gray-400" />
-            <span className="text-xs text-gray-500">{product.category}</span>
+            <span className="text-xs text-gray-500">{portugueseCategories[product.category as keyof PortugueseCategories]}</span>
             {product.is_perishable && (
               <div className="flex items-center gap-1 text-amber-600">
                 <AlertCircle className="w-3 h-3" />
@@ -83,7 +84,7 @@ const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
             <Clock className="w-4 h-4" />
             <span>{formatDate(product.expiration_date)}</span>
           </div>
-          <span className={`px-2 py-1 rounded-full text-xs ${getDaysLeftColor(product.expiration_date)}`}>
+          <span className={`px-2 py-1 rounded-full text-xs text-center ${getDaysLeftColor(product.expiration_date)}`}>
             {daysLeft} dias restantes
           </span>
         </div>
