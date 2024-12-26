@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+import { PortugueseCategories, portugueseCategories } from "@/utils/portugueseProductCategories";
 
 interface Product {
   id: number;
@@ -32,17 +33,6 @@ interface ProdutosPorCategoriaProps {
   products: Product[];
 }
 
-const categoryTranslations: Record<string, string> = {
-  CEREALS: "Cereais",
-  MEAT: "Carnes",
-  DAIRY: "Laticínios",
-  FRUITS: "Frutas",
-  VEGETABLES: "Verduras",
-  DRINKS: "Bebidas",
-  SEASONINGS: "Temperos",
-  FROZEN: "Congelados",
-  CANNED: "Enlatados",
-};
 
 const ProdutosPorCategoria: React.FC<ProdutosPorCategoriaProps> = ({ products }) => {
   const calculateCategoryQuantities = () => {
@@ -55,7 +45,7 @@ const ProdutosPorCategoria: React.FC<ProdutosPorCategoriaProps> = ({ products })
     const quantities = Object.values(categoryCounts);
 
     return {
-      categories: categories.map(cat => categoryTranslations[cat] || cat),
+      categories: categories.map(cat => portugueseCategories[cat as keyof PortugueseCategories] || cat),
       quantities,
     };
   };
