@@ -115,7 +115,7 @@ export default function Page() {
 			category: "CEREALS", 
 			code_product: dados.productCode,
 			is_perishable: dados.perecibleProduct === 'sim',
-			destination: "TRASH", 
+			destination: "SALE", 
 		};
 
 		

@@ -10,6 +10,7 @@ import ErroMessage from "../ErrorMessage";
 import Label from "../Label";
 import useAuthContext from "@/hooks/useAuthContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 const loginSchema = z.object({
@@ -58,43 +59,48 @@ const FormLogin = () => {
 	
 	const isLoading = false;
 	return (
-		<form
-			className="flex flex-col w-full gap-6"
-			onSubmit={handleSubmit(handleSubmitLogin)}
-		>
-			<div className="flex flex-col gap-1">
-				<Label htmlFor="email">Email</Label>
-				<Input
-					{...register("email")}
-					placeholder="Email"
-					type="email"
-					className={`h-9 bg-transparent text-base border-[1px] rounded-md w-full ease-in-out duration-200 ${
-						errors.email && "border-red-500"
-					}`}
-				/>
-				{errors.email && <ErroMessage>{errors.email.message}</ErroMessage>}
-			</div>
-			<div className="flex flex-col gap-1">
-				<Label htmlFor="password">Senha</Label>
-				<Input
-					placeholder="Senha"
-					type="password"
-					className={`h-9 bg-transparent text-base border-[1px] rounded-md w-full ease-in-out duration-200 focus:border-0 ${
-						errors.password && "border-red-500"
-					}`}
-					{...register("password")}
-				/>
-				{errors.password && (
-					<ErroMessage>{errors.password.message}</ErroMessage>
-				)}
-			</div>
-			<Button
-				type="submit"
-				className="text-white h-[42px] hover:bg-[#3a8b40] transition-colors duration-100 ease-linear font-semibold text-[20px]"
+		<>
+			<form
+				className="flex flex-col w-full gap-6"
+				onSubmit={handleSubmit(handleSubmitLogin)}
 			>
-				{isLoading ? <Spinner>Entrando...</Spinner> : "Entrar"}
-			</Button>
-		</form>
+				<div className="flex flex-col gap-1">
+					<Label htmlFor="email">Email</Label>
+					<Input
+						{...register("email")}
+						placeholder="Email"
+						type="email"
+						className={`h-9 bg-transparent text-base border-[1px] rounded-md w-full ease-in-out duration-200 ${
+							errors.email && "border-red-500"
+						}`}
+					/>
+					{errors.email && <ErroMessage>{errors.email.message}</ErroMessage>}
+				</div>
+				<div className="flex flex-col gap-1">
+					<Label htmlFor="password">Senha</Label>
+					<Input
+						placeholder="Senha"
+						type="password"
+						className={`h-9 bg-transparent text-base border-[1px] rounded-md w-full ease-in-out duration-200 focus:border-0 ${
+							errors.password && "border-red-500"
+						}`}
+						{...register("password")}
+					/>
+					{errors.password && (
+						<ErroMessage>{errors.password.message}</ErroMessage>
+					)}
+				</div>
+				<Button
+					type="submit"
+					className="text-white h-[42px] hover:bg-[#3a8b40] transition-colors duration-100 ease-linear font-semibold text-[20px]"
+				>
+					{isLoading ? <Spinner>Entrando...</Spinner> : "Entrar"}
+				</Button>
+			</form>
+			<p className="text-center text-sm py-3">
+                Não possui uma conta? <Link href="/auth/register" className="text-[#3a8b40]">Clique aqui</Link>
+            </p>
+		</>
 	);
 };
 

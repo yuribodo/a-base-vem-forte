@@ -3,8 +3,12 @@ import React from "react";
 import Image from "next/image";
 import BannerIllustrationDesktop from "../../public/images/banner-illustration-small.webp";
 import Link from "next/link";
+import useAuthContext from "@/hooks/useAuthContext";
 
 export default function index() {
+
+	const { isLogged } = useAuthContext();
+
 	return (
 		<section className="w-full h-full max-h-[calc(100vh-5rem)] flex flex-col lg:flex-row items-center sm:px-10">
 			<div className="w-full h-full flex flex-col justify-center items-center px-10 gap-5">
@@ -15,7 +19,10 @@ export default function index() {
 					</span>
 				</h1>
 
-				<Link href="/auth/register" className="self-center lg:self-start">
+				<Link 
+					 href={`${isLogged ? "/dashboard" : "/auth/login"}`}
+					className="self-center lg:self-start"
+					>
 					<button className="bg-[#59c05c] text-white w-72 self-start text-xl rounded-lg py-[10px] hover:bg-[#46a14c] ease-in-out transition duration-300 bg-buttonBgColor/90 hover:shadow-lg">
 						Conheça nosso sistema
 					</button>

@@ -83,7 +83,7 @@ const ProductRow: React.FC<ProductRowProps> = ({ product }) => {
             <Clock className="w-4 h-4" />
             <span>{formatDate(product.expiration_date)}</span>
           </div>
-          <span className={`px-2 py-1 rounded-full text-xs ${getDaysLeftColor(product.expiration_date)}`}>
+          <span className={`px-2 py-1 rounded-full text-xs text-center ${getDaysLeftColor(product.expiration_date)}`}>
             {daysLeft} dias restantes
           </span>
         </div>
