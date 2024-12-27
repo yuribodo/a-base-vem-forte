@@ -48,6 +48,8 @@ const useAuthContext = () => {
 			const token = responseLogin.data.token;
 			localStorage.setItem("token", token);
 			localStorage.setItem("user", JSON.stringify(responseLogin.data));
+
+			return responseLogin.data;
 		} catch (error) {
 			console.log(error);
 			throw new Error("Login inválido");

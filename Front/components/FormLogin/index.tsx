@@ -45,15 +45,15 @@ const FormLogin = () => {
 
 	const handleSubmitLogin = async (dados: loginTypes) => {
 		try {
-			onHandleLogin(dados)
-			await new Promise(resolve => {
-				setTimeout(() => {
-					resolve(true);
-				}, 1000);
-			})
-			router.push('/dashboard')
+			const res = await onHandleLogin(dados); 
+	
+			if (!res) {
+				throw new Error("Login inválido");
+			}
+	
+			router.push("/dashboard");
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 		}
 	};
 	
