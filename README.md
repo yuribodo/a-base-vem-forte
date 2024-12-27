@@ -65,7 +65,7 @@ Foram implementados **testes unitários** e de **integração** em toda a aplica
 
 A documentação completa da API é gerada com Swagger, utilizando o **DRF Spectacular**. Inclui detalhes de endpoints, exemplos de uso e respostas esperadas.
 
-**Acesse a documentação aqui**: [EcoFood API Docs](http://127.0.0.1:8000/api/ecofood/docs/)
+**Acesse a documentação aqui**: [EcoFood API Docs](https://ecofood-pssq.onrender.com/api/ecofood/docs/)
 
 ---
 
