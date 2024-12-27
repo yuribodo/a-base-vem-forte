@@ -36,7 +36,7 @@ const DashboardPage = () => {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get<Product[]>(`${apiUrl}/api/products/`);
+        const response = await axios.get<Product[]>(`${apiUrl}/products/`);
         setProducts(response.data);
         setError(null);
       } catch (err) {

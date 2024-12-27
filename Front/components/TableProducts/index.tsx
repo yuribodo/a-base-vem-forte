@@ -39,7 +39,7 @@ const TableProducts = ({ tab }: { tab: "expired" | "aboutToExpire" }) => {
 		const fetchProducts = async () => {
 			try {
 				setLoading(true);
-				const response = await axios.get(`${apiUrl}/api/products/`);
+				const response = await axios.get(`${apiUrl}/products/`);
 				setProducts(response.data);
 			} catch (err) {
 				setError("Erro ao carregar os produtos. Tente novamente.");

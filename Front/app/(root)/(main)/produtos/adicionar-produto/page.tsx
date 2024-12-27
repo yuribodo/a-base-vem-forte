@@ -120,7 +120,7 @@ export default function Page() {
 
 		
 		try {
-			const response = await axios.post(`${apiUrl}/api/products/`, sanitizedData);
+			const response = await axios.post(`${apiUrl}/products/`, sanitizedData);
 			console.log("Product added:", response.data);
 			toast.success('Produto adicionado com sucesso!');
 			

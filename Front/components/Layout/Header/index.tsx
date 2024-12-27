@@ -12,6 +12,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const {isLogged , onHandleLogout} = useAuthContext()
+  
 
   useEffect(() => {
     const checkScreenSize = () => {

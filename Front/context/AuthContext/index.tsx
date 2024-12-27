@@ -23,16 +23,23 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<User | null>(null);
 	const [isLogged, setIsLogged] = useState(false);
 
-	useEffect(() => {
-		const token = localStorage.getItem("token");
 
-		if (token !== null) {
-			setIsLogged(true);
-			const storedUser = localStorage.getItem("user");
-			if (storedUser) {
-				setUser(JSON.parse(storedUser));
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+
+			const token = localStorage.getItem("token");
+
+			if (token !== null) {
+				setIsLogged(true);
+				const storedUser = localStorage.getItem("user");
+				if (storedUser) {
+					setUser(JSON.parse(storedUser));
+				}
 			}
-		}
+
+		}, 1500)
+		
+		return () => clearTimeout(timeout)
 	}, []);
 
 	return (
