@@ -11,6 +11,7 @@ import ErroMessage from "../../../../../components/ErrorMessage";
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { getENCategoryByPTValue } from '@/utils/portugueseProductCategories';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -66,6 +67,8 @@ const loginSchema = z.object({
 		.string()
 		.min(6, "O código do produto precisa ter ao menos 6 caracteres"),
 	perecibleProduct: z.string().min(1, "O campo de produto perecível é obrigatório"), 
+	isPerishableProduct: z.string(), 
+	category: z.string().toUpperCase(), 
 });
 
 
@@ -89,6 +92,7 @@ export default function Page() {
 			quantity: undefined,
 			productCode: "",
 			perecibleProduct: "nao", 
+			category: "CEREALS",
 		},
 	});
 
@@ -112,7 +116,7 @@ export default function Page() {
 		
 			expiration_date: convertDateToAPIFormat(dados.validateDate),
 			date_of_manufacture: dados.manufactoringDate ? convertDateToAPIFormat(dados.manufactoringDate) : undefined,
-			category: "CEREALS", 
+			category: getENCategoryByPTValue(dados?.category).toUpperCase() || "CEREALS", 
 			code_product: dados.productCode,
 			is_perishable: dados.perecibleProduct === 'sim',
 			destination: "SALE", 
