@@ -7,7 +7,7 @@ export const handleRecycle = async (
 	if (!selectedProductId) return;
 	try {
 		const response = await apiClient.patch(
-			`/api/products/${selectedProductId}/status/`,
+			`/products/${selectedProductId}/status/`,
 			{
 				action: "recycle",
 				quantity: productQuantity,
@@ -26,7 +26,7 @@ export const handleDiscard = async (
 	if (!selectedProductId) return;
 	try {
 		const response = await apiClient.patch(
-			`/api/products/${selectedProductId}/status/`,
+			`/products/${selectedProductId}/status/`,
 			{
 				action: "discard",
 				quantity: productQuantity,
@@ -43,7 +43,7 @@ export const handleDelete = async (selectedProductId: number | null) => {
 	if (!selectedProductId) return;
 	try {
 		const response = await apiClient.delete(
-			`/api/products/${selectedProductId}/`
+			`/products/${selectedProductId}/`
 		);
 		console.log("Product deleted:", response.data);
 		return "success";
