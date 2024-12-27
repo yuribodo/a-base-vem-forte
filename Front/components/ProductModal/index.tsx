@@ -8,8 +8,7 @@ import axios from "axios";
 import { PortugueseCategories, portugueseCategories } from "@/utils/portugueseProductCategories";
 import { useRouter } from 'next/navigation';
 import { PortugueseDestination, portugueseDestination } from "@/utils/portugueseProductDestination";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+import apiClient from "@/axios";
 
 export default function ProductModal() {
   const { isOpenModal, selectedProductId, setIsOpenModal, setUpdateProductsUI } = useModalStore();
@@ -27,7 +26,7 @@ export default function ProductModal() {
 
       if (selectedProductId) {
         try {
-          const response = await axios.get(`${apiUrl}/api/products/${selectedProductId}/`);
+          const response = await apiClient.get(`/products/${selectedProductId}/`);
           setProduct({
             ...response.data,
             category: portugueseCategories[response.data.category as keyof PortugueseCategories],
