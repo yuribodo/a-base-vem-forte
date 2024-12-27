@@ -94,7 +94,7 @@ export default function Page() {
         const fetchProducts = async() => {
             try {
                 setIsProductLoaded(true);
-                const response = await axios.get(`${apiUrl}/api/products/${selectedProductId}/`);
+                const response = await axios.get(`${apiUrl}/products/${selectedProductId}/`);
                 setProduct({
                     ...response.data,
                     category: portugueseCategories[response.data.category as keyof PortugueseCategories],
@@ -178,7 +178,7 @@ export default function Page() {
 		};
 		
 		try {
-			const response = await axios.put(`${apiUrl}/api/products/${selectedProductId}/`, sanitizedData);
+			const response = await axios.put(`${apiUrl}/products/${selectedProductId}/`, sanitizedData);
 			console.log("Product Editado:", response.data);
 			toast.success('Produto editado com sucesso!');
             setError(null);

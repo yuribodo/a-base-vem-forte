@@ -39,7 +39,7 @@ const Page = () => {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get<Product[]>(`${apiUrl}/api/products/`); 
+        const response = await axios.get<Product[]>(`${apiUrl}/products/`); 
         response.data.map((product) => {
           product.category = portugueseCategories[product.category as keyof PortugueseCategories];
         });
