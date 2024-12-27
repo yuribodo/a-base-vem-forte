@@ -1,3 +1,4 @@
+export $(grep -v '^#' .env | xargs)
 #!/usr/bin/env bash
 # exit on error
 set -o errexit
