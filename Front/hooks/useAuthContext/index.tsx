@@ -16,7 +16,7 @@ const useAuthContext = () => {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [sucessMessage, setSucessMessage] = useState("");
-	const { user, setUser, isLogged } = context;
+	const { user, setUser, isLogged, setIsLogged } = context;
 
 	type loginTypes = {
 		email: string;
@@ -34,7 +34,6 @@ const useAuthContext = () => {
 		phoneNumber: string;
 	};
 
-
 	const onHandleLogin = async (authLogin: loginTypes) => {
 		try {
 			setIsLoading(true);
@@ -45,10 +44,10 @@ const useAuthContext = () => {
 			}
 
 			setUser(responseLogin.data);
+			setIsLogged(true);
 			const token = responseLogin.data.token;
 			localStorage.setItem("token", token);
 			localStorage.setItem("user", JSON.stringify(responseLogin.data));
-			
 		} catch (error) {
 			console.log(error);
 			throw new Error("Login inválido");
@@ -61,6 +60,7 @@ const useAuthContext = () => {
 		localStorage.removeItem("token");
 		localStorage.removeItem("user");
 		setUser(null);
+		setIsLogged(false);
 		window.location.href = "/auth/login";
 	};
 

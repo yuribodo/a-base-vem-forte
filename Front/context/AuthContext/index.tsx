@@ -15,6 +15,7 @@ interface AuthContextProps {
 	user: User | null;
 	setUser: React.Dispatch<React.SetStateAction<User | null>>;
 	isLogged: boolean;
+	setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<AuthContextProps | null>(null);
@@ -23,27 +24,20 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<User | null>(null);
 	const [isLogged, setIsLogged] = useState(false);
 
-
 	useEffect(() => {
-		const timeout = setTimeout(() => {
+		const token = localStorage.getItem("token");
 
-			const token = localStorage.getItem("token");
-
-			if (token !== null) {
-				setIsLogged(true);
-				const storedUser = localStorage.getItem("user");
-				if (storedUser) {
-					setUser(JSON.parse(storedUser));
-				}
+		if (token !== null) {
+			setIsLogged(true);
+			const storedUser = localStorage.getItem("user");
+			if (storedUser) {
+				setUser(JSON.parse(storedUser));
 			}
-
-		}, 1500)
-		
-		return () => clearTimeout(timeout)
+		}
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ user, setUser, isLogged }}>
+		<AuthContext.Provider value={{ user, setUser, isLogged, setIsLogged }}>
 			{children}
 		</AuthContext.Provider>
 	);
