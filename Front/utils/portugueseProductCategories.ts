@@ -22,6 +22,6 @@ export const portugueseCategories: PortugueseCategories = {
     "CANNED GOODS": "ENLATADOS"
 };
 
-export const getKeyByValue = (value: string): string => {
+export const getENCategoryByPTValue = (value: string): string => {
     return Object.entries(portugueseCategories).find(([_, val]) => val === value)?.[0] || '';
 }
