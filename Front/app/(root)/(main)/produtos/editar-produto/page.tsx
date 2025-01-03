@@ -12,7 +12,7 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import useModalStore from '@/store/OpenProductModal';
-import { getKeyByValue, PortugueseCategories, portugueseCategories } from '@/utils/portugueseProductCategories';
+import { getENCategoryByPTValue, PortugueseCategories, portugueseCategories } from '@/utils/portugueseProductCategories';
 import { getDestinationKeyByValue, PortugueseDestination, portugueseDestination } from '@/utils/portugueseProductDestination';
 
 
@@ -123,7 +123,7 @@ export default function Page() {
             quantity: product?.quantity.toString() || "",
             productCode: product?.code_product ||"",
             isPerishableProduct: product?.is_perishable ? 'sim' : 'nao', 
-            category: getKeyByValue(product?.category).toLocaleLowerCase()|| "",
+            category: getENCategoryByPTValue(product?.category).toLocaleLowerCase()|| "",
         })
 
     }, [product])
